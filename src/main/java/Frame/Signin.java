@@ -16,7 +16,4 @@ public class Signin extends JFrame{
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        Signin signinFrame = new Signin();
-    }
 }

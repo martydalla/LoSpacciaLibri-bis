@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends JFrame{
+public class Login {
     private JTextField tfUsername;
     private JButton btnLogin;
     private JPasswordField pfPassword;
@@ -12,21 +12,9 @@ public class Login extends JFrame{
     private JButton btnPassDimenticata;
     private JButton btnSignin;
 
-    public Login(){
-        setContentPane(loginPanel);
-        setTitle("LoSpacciaLibri");
-        setSize(400, 300);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
-        btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-    }
-
-    public static void main(String[] args) {
-        Login loginFrame = new Login();
+    public Login(JFrame frame) {
+        frame.setSize(400,600);
+        frame.setContentPane(loginPanel);
+        frame.revalidate();
     }
 }
