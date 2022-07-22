@@ -32,10 +32,10 @@ public class Login {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                System.out.print(tfUsername.getText());
+                System.out.print(String.copyValueOf(pfPassword.getPassword()));
                 for(User i : users){
-                    System.out.print(tfUsername.getText());
-                    System.out.print(String.copyValueOf(pfPassword.getPassword()));
+
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
                         //System.out.print("Ciao");
                     }
