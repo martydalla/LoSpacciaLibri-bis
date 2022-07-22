@@ -19,6 +19,7 @@ public class Login {
     private JPanel loginPanel;
     private JButton btnPwDimenticata;
     private JButton btnSignin;
+    private JLabel lbErrore;
     ArrayList<User> users;
 
     public Login(JFrame frame) {
@@ -28,7 +29,7 @@ public class Login {
         frame.setContentPane(loginPanel);
         frame.revalidate();
 
-        readUser();
+        readUser(users);
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -36,8 +37,11 @@ public class Login {
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
                         System.out.print("Ciao");
                     }
+                    else if(!(i.getUsername().equals(tfUsername.getText()))){
+                        lbErrore.setText("Username errato!");
+                    }
                     else{
-                        System.out.print("Hello");
+                        lbErrore.setText("Password errata!");
                     }
                 }
             }
@@ -58,7 +62,7 @@ public class Login {
         });
     }
 
-    public void readUser(){
+    public static void readUser(ArrayList<User> list){
         DBManager.setConnection();
         try {
             Statement statement = DBManager.getConnection().createStatement();
@@ -73,8 +77,7 @@ public class Login {
                 String università = String.format("%s", rs.getString("università"));
                 boolean admin = rs.getBoolean("admin");
 
-                users.add(new User(username,pw,nome,cognome,email,immagine,università,admin));
-                System.out.print(users);
+                list.add(new User(username,pw,nome,cognome,email,immagine,università,admin));
             }
             statement.close();
         } catch (SQLException e) {

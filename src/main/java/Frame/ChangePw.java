@@ -6,10 +6,7 @@ import Utils.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Blob;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ChangePw {
@@ -27,42 +24,32 @@ public class ChangePw {
         frame.setContentPane(changePwPanel);
         frame.revalidate();
 
-        readUser();
+        Login.readUser(users);
         btnChangePw.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 //cercare username e email nel db e se li trovo cambio password
                 for(User i : users){
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getEmail().equals(tfEmail.getText()))){
+                        System.out.print(String.copyValueOf(pfPassword.getPassword()));
                         i.setPw(String.copyValueOf(pfPassword.getPassword()));
+                        //da inserire nel db
                     }
                 }
             }
         });
     }
 
-    public void readUser(){
+    public void writeUser(){
         DBManager.setConnection();
+        PreparedStatement st = null;
         try {
-            Statement statement = DBManager.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from users");
-            while(rs.next()){
-                String username = String.format("%s", rs.getString("username"));
-                String pw = String.format("%s", rs.getString("pw"));
-                String nome = String.format("%s", rs.getString("nome"));
-                String cognome = String.format("%s", rs.getString("cognome"));
-                String email = String.format("%s", rs.getString("email"));
-                Blob immagine = rs.getBlob("immagine");
-                String università = String.format("%s", rs.getString("università"));
-                boolean admin = rs.getBoolean("admin");
+            st = DBManager.getConnection().prepareStatement("alter table users ");
 
-                users.add(new User(username,pw,nome,cognome,email,immagine,università,admin));
-                System.out.print(users);
-            }
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
     }
 }
