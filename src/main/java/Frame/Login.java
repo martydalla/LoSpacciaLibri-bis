@@ -17,7 +17,7 @@ public class Login {
     private JButton btnLogin;
     private JPasswordField pfPassword;
     private JPanel loginPanel;
-    private JButton btnPassDimenticata;
+    private JButton btnPwDimenticata;
     private JButton btnSignin;
     ArrayList<User> users;
 
@@ -32,11 +32,31 @@ public class Login {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
                 for(User i : users){
+                    System.out.print(tfUsername.getText());
+                    System.out.print(String.copyValueOf(pfPassword.getPassword()));
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
-                        System.out.print("Ciao");
+                        //System.out.print("Ciao");
+                    }
+                    else{
+                        //System.out.print("Hello");
                     }
                 }
+            }
+        });
+
+        btnPwDimenticata.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ChangePw changePw = new ChangePw((MainFrame) frame);
+            }
+        });
+
+        btnSignin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Signin signin = new Signin((MainFrame) frame);
             }
         });
     }
