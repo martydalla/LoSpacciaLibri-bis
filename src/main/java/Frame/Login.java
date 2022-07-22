@@ -32,15 +32,12 @@ public class Login {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.print(tfUsername.getText());
-                System.out.print(String.copyValueOf(pfPassword.getPassword()));
                 for(User i : users){
-
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
-                        //System.out.print("Ciao");
+                        System.out.print("Ciao");
                     }
                     else{
-                        //System.out.print("Hello");
+                        System.out.print("Hello");
                     }
                 }
             }
@@ -77,6 +74,7 @@ public class Login {
                 boolean admin = rs.getBoolean("admin");
 
                 users.add(new User(username,pw,nome,cognome,email,immagine,università,admin));
+                System.out.print(users);
             }
             statement.close();
         } catch (SQLException e) {
