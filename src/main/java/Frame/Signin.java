@@ -15,7 +15,7 @@ public class Signin extends JFrame{
 
     public Signin(MainFrame frame){
     /*COSTRUTTORE*/
-        frame.setSize(400,600);
+        frame.setSize(1000,600);
         frame.setContentPane(signinPanel);
         frame.revalidate();
 

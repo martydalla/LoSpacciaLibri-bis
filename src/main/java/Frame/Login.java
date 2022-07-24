@@ -25,9 +25,9 @@ public class Login {
     public Login(JFrame frame) {
         users = new ArrayList<>();
 
-        frame.setSize(400,600);
         frame.setContentPane(loginPanel);
         frame.revalidate();
+        frame.setSize(400,300);
 
         readUser(users);
         btnLogin.addActionListener(new ActionListener() {
@@ -35,13 +35,10 @@ public class Login {
             public void actionPerformed(ActionEvent actionEvent) {
                 for(User i : users){
                     if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
-                        System.out.print("Ciao");
+                        Profilo profilo = new Profilo((MainFrame) frame);
                     }
-                    else if(!(i.getUsername().equals(tfUsername.getText()))){
-                        lbErrore.setText("Username errato!");
-                    }
-                    else{
-                        lbErrore.setText("Password errata!");
+                    else {
+                        lbErrore.setText("Username o password errata!");
                     }
                 }
             }
@@ -66,7 +63,7 @@ public class Login {
         DBManager.setConnection();
         try {
             Statement statement = DBManager.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from users");
+            ResultSet rs = statement.executeQuery("select * from users"); //where
             while(rs.next()){
                 String username = String.format("%s", rs.getString("username"));
                 String pw = String.format("%s", rs.getString("pw"));

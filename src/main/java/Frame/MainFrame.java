@@ -8,12 +8,13 @@ public class MainFrame extends JFrame {
 
         setLocationRelativeTo(null);
         setTitle("LoSpacciaLibri");
-        setSize(400, 600);
+        setSize(960, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
 
-        new Start(this);
+        new StartImage(this);
     }
 
     public static void main(String[] args) {

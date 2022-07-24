@@ -12,6 +12,8 @@ public class Admin extends JFrame{
     private JLabel imageMoney;
     private JTextArea taDescrizione;
     private JPanel articoliPanel;
+    private JButton logoutButton;
+    private JButton backButton;
 
     public Admin(){
         ImageIcon imageIcon = new ImageIcon(new ImageIcon("./Icon/user.png").getImage().getScaledInstance(87, 87 ,
