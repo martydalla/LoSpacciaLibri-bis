@@ -1,7 +1,8 @@
-package Frame;
+package Frame.Start;
+import Frame.Login.Login;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
 
 public class Start{
     private JButton btnImage;

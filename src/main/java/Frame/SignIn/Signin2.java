@@ -1,7 +1,6 @@
-package Frame;
+package Frame.SignIn;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;

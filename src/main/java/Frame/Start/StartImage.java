@@ -1,4 +1,6 @@
-package Frame;
+package Frame.Start;
+
+import Frame.Login.Login;
 
 import javax.swing.*;
 import java.awt.*;

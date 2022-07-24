@@ -1,5 +1,8 @@
-package Frame;
+package Frame.Login;
 
+import Frame.Start.MainFrame;
+import Frame.Profilo;
+import Frame.SignIn.Signin;
 import Utils.DBManager;
 import Utils.User;
 
