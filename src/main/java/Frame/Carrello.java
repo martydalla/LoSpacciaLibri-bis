@@ -3,6 +3,7 @@ package Frame;
 import Frame.Login.Login;
 import Frame.Start.MainFrame;
 import Utils.Book;
+import Utils.Manager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -115,7 +116,7 @@ public class Carrello {
         for (int i = 0; i < countItems() && i < 5; i++) {
             BufferedImage immagine = null;
             try {
-                immagine = resizeImage(carrello.get(i).getImmagine(), 70, 70);
+                immagine = Manager.resizeImage(carrello.get(i).getImmagine(), 70, 70);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -164,13 +165,6 @@ public class Carrello {
             i.setVisible(false);
         }
         return;
-    }
-
-    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-        BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-        return outputImage;
     }
 
     private void loadButtonIcons() {
