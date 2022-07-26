@@ -1,6 +1,6 @@
 package Utils;
 
-import java.sql.Blob;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class Book {
@@ -8,12 +8,12 @@ public class Book {
     String titolo;
     String autore;
     String università;
-    Blob immagine;
+    BufferedImage immagine;
     int prezzo;
     String descrizione;
     int quantità;
 
-    public Book(String isbn, String titolo, String autore, String università, Blob immagine, int prezzo, String descrizione, int quantità) {
+    public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo, String descrizione, int quantità) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.autore = autore;
@@ -71,11 +71,11 @@ public class Book {
         this.università = università;
     }
 
-    public Blob getImmagine() {
+    public BufferedImage getImmagine() {
         return immagine;
     }
 
-    public void setImmagine(Blob immagine) {
+    public void setImmagine(BufferedImage immagine) {
         this.immagine = immagine;
     }
 
@@ -101,5 +101,10 @@ public class Book {
 
     public void setQuantità(int quantità) {
         this.quantità = quantità;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" + "descrizione='" + descrizione + '\'' + '}';
     }
 }
