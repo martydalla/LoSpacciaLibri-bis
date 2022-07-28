@@ -105,6 +105,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" + "descrizione='" + descrizione + '\'' + '}';
+        return "Book{" + "quantità='" + quantità + '\'' + '}';
     }
 }

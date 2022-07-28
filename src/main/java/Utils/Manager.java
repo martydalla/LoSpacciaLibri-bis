@@ -25,7 +25,7 @@ public class Manager {
 
     public  static InputStream bufferedImageToInputStream (BufferedImage immagine) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ImageIO.write(immagine,"jpeg",output);
+        ImageIO.write(immagine,"png",output);
         InputStream input =  new ByteArrayInputStream(output.toByteArray());
         return input;
     }
