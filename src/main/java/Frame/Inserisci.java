@@ -7,6 +7,7 @@ import Utils.DBManager;
 import Utils.Manager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.sqlite.core.DB;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,13 +16,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Inserisci {
@@ -55,11 +62,6 @@ public class Inserisci {
     BufferedImage currentBufferedImage;
     boolean mouse;
 
-
-    /*
-    *Manca MODIFICA E SALVA MODIFICHE
-     */
-
     public Inserisci(MainFrame frame) {
         this.frame = frame;
         mouse = false;
@@ -75,12 +77,26 @@ public class Inserisci {
         rimuoviButton.addActionListener(e -> {
             ListSelectionModel selectionModel = table.getSelectionModel();
             if (!selectionModel.isSelectionEmpty()) {
-                int index[] = selectionModel.getSelectedIndices();
-                removeFromDB((String) model.getValueAt(index[0], index[0]));
+                removeFromDB((String) model.getValueAt(table.getSelectedRow(), 0));
                 model.removeRow(table.getSelectedRow());
             }
         });
         modificaButton.addActionListener(e -> {
+            ListSelectionModel selectionModel = table.getSelectionModel();
+            if (!selectionModel.isSelectionEmpty()) {
+                isbnTextField.setEnabled(false);
+                isbnTextField.setText((String) model.getValueAt(table.getSelectedRow(), 0));
+                titoloTextField.setText((String) model.getValueAt(table.getSelectedRow(), 1));
+                titoloTextField.setEnabled(false);
+                autoreTextField.setText((String) model.getValueAt(table.getSelectedRow(), 2));
+                autoreTextField.setEnabled(false);
+                universitàTextField.setText((String) model.getValueAt(table.getSelectedRow(), 3));
+                universitàTextField.setEnabled(false);
+                prezzoTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 5)));
+                descrzioneTextPane.setText((String) model.getValueAt(table.getSelectedRow(), 6));
+                descrzioneTextPane.setEnabled(false);
+                quantitàTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 7)));
+            }
         });
         svuotaButton.addActionListener(e -> {
             svuotaTable();
@@ -119,18 +135,52 @@ public class Inserisci {
                 JOptionPane.showMessageDialog(null, "inserisci tutti i dati", null, JOptionPane.INFORMATION_MESSAGE);
             }
         });
+        salvaModificheButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(modificaDB(isbnTextField.getText())) {
+                    loadTableFromDB();
+                    resetItems();
+                }
+            }
+        });
+    }
+
+    private boolean modificaDB(String isbn) {
+        DBManager.setConnection();
+        try {
+            int prezzo = Integer.parseInt(prezzoTextField.getText());
+            int quantità = Integer.parseInt(quantitàTextField.getText());
+            Statement statement = DBManager.getConnection().createStatement();
+            String sql = String.format("UPDATE books SET prezzo = %d ,quantità = %d WHERE isbn = '%s'", prezzo,
+                    quantità, isbn);
+            statement.execute(sql);
+            statement.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"impossibile modificare",null,JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     private void resetItems() {
         isbnTextField.setText("");
+        isbnTextField.setEnabled(true);
         quantitàTextField.setText("");
+        quantitàTextField.setEnabled(true);
         prezzoTextField.setText("");
+        prezzoTextField.setEnabled(true);
         titoloTextField.setText("");
+        titoloTextField.setEnabled(true);
         autoreTextField.setText("");
+        autoreTextField.setEnabled(true);
         universitàTextField.setText("");
+        universitàTextField.setEnabled(true);
         descrzioneTextPane.setText("");
+        descrzioneTextPane.setEnabled(true);
         immagineLabel.setIcon(null);
         currentBufferedImage = null;
+        immagineLabel.setText("immagine");
     }
 
     private void loadTableFromDB() {
@@ -144,6 +194,7 @@ public class Inserisci {
             ResultSet resultSet = statement.executeQuery(sql);
             model = buildTableModel(resultSet);
             table.setModel(model);
+            table.setDefaultEditor(Object.class, null);
         } catch (SQLException e) {
             /*SICURAMENTE MAGAZZINO VUOTO*/
         }
@@ -225,7 +276,7 @@ public class Inserisci {
             String sql = String.format("DELETE FROM books WHERE isbn = '%s'", isbn);
             statement.execute(sql);
             statement.close();
-            JOptionPane.showMessageDialog(null, "Libro Eliminato!", null, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Libro Eliminato!", null, JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Impossibile eliminare il libro selezionato...", null, JOptionPane.INFORMATION_MESSAGE);
