@@ -1,8 +1,12 @@
 package Frame.SignIn;
 
+import Frame.Ricerca;
+import Frame.Start.MainFrame;
 import Utils.DBManager;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -17,7 +21,7 @@ public class Signin3 {
     InputStream input;
     JFrame frame;
 
-    public Signin3(String nome, String cognome, String email, String username, String password, InputStream input, JFrame frame) {
+    public Signin3(String nome, String cognome, String email, String username, String password, InputStream input, MainFrame frame) {
         this.input = input;
         this.cognome = cognome;
         this.email = email;
@@ -27,10 +31,14 @@ public class Signin3 {
         this.frame = frame;
         frame.setContentPane(signin3Panel);
         frame.revalidate();
-        btnSignin.addActionListener(e -> registrami());
+        btnSignin.addActionListener(e -> {
+            if (registrami()) {
+                new Ricerca(frame);
+            }
+        });
     }
 
-    private void registrami() {
+    private boolean registrami() {
         if (!tfUniversità.getText().equals("")) {
             università = tfUniversità.getText();
             try {
@@ -48,9 +56,10 @@ public class Signin3 {
                 st.close();
                 JOptionPane.showMessageDialog(null, "Benvenuto Piskello!", null, JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
-                e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile eseguire registrazione", null, JOptionPane.INFORMATION_MESSAGE);
+                return false;
             }
         }
+        return true;
     }
 }

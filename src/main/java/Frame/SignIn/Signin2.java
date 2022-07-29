@@ -1,5 +1,7 @@
 package Frame.SignIn;
 
+import Frame.Start.MainFrame;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +24,9 @@ public class Signin2 extends JFrame {
     private BufferedImage image;
     private Blob picData;
     String nome, cognome, email, username, password;
-    JFrame frame;
+    MainFrame frame;
 
-    public Signin2(String username, String password, JFrame frame) {
+    public Signin2(String username, String password, MainFrame frame) {
         this.frame = frame;
         this.username = username;
         this.password = password;

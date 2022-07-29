@@ -70,8 +70,12 @@ public class Carrello {
   ArrayList<JButton> deleteBotton;
   ArrayList<Book> carrello;
 
+  /*
+  *Carrello buggato fa vedere immagine in bianco e nero
+   */
+
   public Carrello(MainFrame frame) {
-    carrello = new ArrayList<>();
+    carrello = new ArrayList<>(); /*questo sarà da cambiare*/
     this.frame = frame;
     loadArrays();
     loadButtonIcons();
