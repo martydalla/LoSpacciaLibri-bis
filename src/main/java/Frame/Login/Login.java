@@ -1,18 +1,16 @@
 package Frame.Login;
 
-import Frame.Start.MainFrame;
 import Frame.Profilo;
+import Frame.Start.MainFrame;
 import Frame.SignIn.Signin;
+import Utils.Book;
 import Utils.DBManager;
 import Utils.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Blob;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Login {
@@ -23,37 +21,35 @@ public class Login {
     private JButton btnPwDimenticata;
     private JButton btnSignin;
     private JLabel lbErrore;
-    ArrayList<User> users;
+    User utente;
+    ArrayList<Book> carrello;
 
     public Login(JFrame frame) {
-        users = new ArrayList<>();
-
+        utente = new User(null, null, null, null, null, null, null, null);
+        carrello = new ArrayList<>();
         frame.setContentPane(loginPanel);
         frame.revalidate();
-        frame.setSize(400,300);
-
-        readUser(users);
+        frame.setSize(400, 300);
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                for(User i : users){
-                    if((i.getUsername().equals(tfUsername.getText())) && (i.getPw().equals(String.copyValueOf(pfPassword.getPassword())))) {
-                        Profilo profilo = new Profilo((MainFrame) frame);
-                    }
-                    else {
-                        lbErrore.setText("Username o password errata!");
-                    }
+                String username = tfUsername.getText();
+                String password = String.copyValueOf(pfPassword.getPassword());
+                System.out.print(username + password);
+                if (checkUser(username, password)) {
+                    utente.setUsername(tfUsername.getText());
+                    Profilo profilo = new Profilo((MainFrame) frame, utente, carrello);
+                } else {
+                    lbErrore.setText("Username o password errata!");
                 }
             }
         });
-
         btnPwDimenticata.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ChangePw changePw = new ChangePw((MainFrame) frame);
+                ChangePw changePw = new ChangePw((MainFrame) frame, utente);
             }
         });
-
         btnSignin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -62,29 +58,22 @@ public class Login {
         });
     }
 
-    public static void readUser(ArrayList<User> list){
+    public boolean checkUser(String username, String password) {
         DBManager.setConnection();
         try {
-            Statement statement = DBManager.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from users"); //where
-            while(rs.next()){
-                String username = String.format("%s", rs.getString("username"));
-                String pw = String.format("%s", rs.getString("pw"));
-                String nome = String.format("%s", rs.getString("nome"));
-                String cognome = String.format("%s", rs.getString("cognome"));
-                String email = String.format("%s", rs.getString("email"));
-                Blob immagine = rs.getBlob("immagine");
-                String università = String.format("%s", rs.getString("università"));
-                boolean admin = rs.getBoolean("admin");
-
-                list.add(new User(username,pw,nome,cognome,email,immagine,università,admin));
+            PreparedStatement statement = DBManager.getConnection().prepareStatement("select * from users where " + "username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if (username.equals(String.format("%s", resultSet.getString("username"))) && password.equals(String.format("%s", resultSet.getString("pw")))) {
+                    return true;
+                }
             }
             statement.close();
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
-
-
 }

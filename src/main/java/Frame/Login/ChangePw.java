@@ -16,41 +16,57 @@ public class ChangePw {
     private JPasswordField pfPassword;
     private JButton btnChangePw;
     private JPanel changePwPanel;
+    private JLabel lbErrore;
     ArrayList<User> users;
 
-    public ChangePw(MainFrame frame){
-        users = new ArrayList<>();
-
-        frame.setSize(400,600);
+    public ChangePw(MainFrame frame, User utente) {
+        frame.setSize(400, 300);
         frame.setContentPane(changePwPanel);
         frame.revalidate();
-
-        Login.readUser(users);
         btnChangePw.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //cercare username e email nel db e se li trovo cambio password
-                for(User i : users){
-                    if((i.getUsername().equals(tfUsername.getText())) && (i.getEmail().equals(tfEmail.getText()))){
-                        System.out.print(String.copyValueOf(pfPassword.getPassword()));
-                        i.setPw(String.copyValueOf(pfPassword.getPassword()));
-                        //da inserire nel db
-                    }
+                String username = tfUsername.getText();
+                String email = tfEmail.getText();
+                if (checkUser(username, email)) {
+                    changePw(username);
+                    Login login = new Login(frame);
+                } else {
+                    lbErrore.setText("Profilo non esistente!");
                 }
             }
         });
     }
 
-    public void writeUser(){
+    public boolean checkUser(String username, String email) {
         DBManager.setConnection();
-        PreparedStatement st = null;
         try {
-            st = DBManager.getConnection().prepareStatement("alter table users ");
+            PreparedStatement statement = DBManager.getConnection().prepareStatement("select * from users where " + "username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if (username.equals(String.format("%s", resultSet.getString("username"))) && email.equals(String.format("%s", resultSet.getString("email")))) {
+                    return true;
+                }
+            }
+            statement.close();
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+    public void changePw(String username) {
+        DBManager.setConnection();
+        try {
+            PreparedStatement statement = DBManager.getConnection().prepareStatement("update users set pw = ?" + "where username = ?");
+            statement.setString(1, String.valueOf(pfPassword.getPassword()));
+            statement.setString(2, username);
+            statement.execute();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 }

@@ -2,16 +2,15 @@ package Frame.SignIn;
 
 import Frame.Ricerca;
 import Frame.Start.MainFrame;
+import Utils.Book;
 import Utils.DBManager;
+import Utils.User;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Signin3 {
     private JTextField tfUniversità;
@@ -20,6 +19,8 @@ public class Signin3 {
     String nome, cognome, email, username, password, università;
     InputStream input;
     JFrame frame;
+    User utente;
+    ArrayList<Book> carrello;
 
     public Signin3(String nome, String cognome, String email, String username, String password, InputStream input, MainFrame frame) {
         this.input = input;
@@ -29,11 +30,13 @@ public class Signin3 {
         this.nome = nome;
         this.username = username;
         this.frame = frame;
+        carrello = new ArrayList<>();
+        utente = new User(username, null, null, null, null, null, null, null);
         frame.setContentPane(signin3Panel);
         frame.revalidate();
         btnSignin.addActionListener(e -> {
             if (registrami()) {
-                new Ricerca(frame);
+                new Ricerca(frame, utente, carrello);
             }
         });
     }

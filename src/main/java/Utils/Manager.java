@@ -14,7 +14,6 @@ import java.sql.SQLException;
 /*FUNZIONI UTILI*/
 
 public class Manager {
-
     public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         /*TOGLIE I COLORI NON SO PERCHE'*/
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
@@ -23,18 +22,18 @@ public class Manager {
         return outputImage;
     }
 
-    public  static InputStream bufferedImageToInputStream (BufferedImage immagine) throws IOException {
+    public static InputStream bufferedImageToInputStream(BufferedImage immagine) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ImageIO.write(immagine,"png",output);
-        InputStream input =  new ByteArrayInputStream(output.toByteArray());
+        ImageIO.write(immagine, "png", output);
+        InputStream input = new ByteArrayInputStream(output.toByteArray());
         return input;
     }
 
-    public static BufferedImage inputStreamToBufferedImage (InputStream input) throws IOException {
-        return  ImageIO.read(input);
+    public static BufferedImage inputStreamToBufferedImage(InputStream input) throws IOException {
+        return ImageIO.read(input);
     }
 
-    public static InputStream blobToInputStream (Blob blob) throws SQLException {
-        return blob.getBinaryStream(1,blob.length());
+    public static InputStream blobToInputStream(Blob blob) throws SQLException {
+        return blob.getBinaryStream(1, blob.length());
     }
 }

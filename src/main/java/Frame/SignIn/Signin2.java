@@ -59,8 +59,7 @@ public class Signin2 extends JFrame {
         try {
             input = new FileInputStream(chooser.getSelectedFile());
             image = ImageIO.read(input);
-            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(120, 120 ,
-                    Image.SCALE_DEFAULT)));
+            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

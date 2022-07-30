@@ -97,5 +97,4 @@ public class User {
         User user = (User) o;
         return Objects.equals(Username, user.Username) && Objects.equals(Pw, user.Pw) && Objects.equals(Nome, user.Nome) && Objects.equals(Cognome, user.Cognome) && Objects.equals(Email, user.Email) && Objects.equals(Immagine, user.Immagine) && Objects.equals(Università, user.Università) && Objects.equals(Admin, user.Admin);
     }
-
 }

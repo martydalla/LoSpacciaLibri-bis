@@ -5,6 +5,7 @@ import Frame.Start.MainFrame;
 import Utils.Book;
 import Utils.DBManager;
 import Utils.Manager;
+import Utils.User;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.sqlite.core.DB;
@@ -61,8 +62,12 @@ public class Inserisci {
     ListSelectionModel selectionModel;
     BufferedImage currentBufferedImage;
     boolean mouse;
+    User utente;
+    ArrayList<Book> carrello;
 
-    public Inserisci(MainFrame frame) {
+    public Inserisci(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        this.carrello = carrello;
+        this.utente = utente;
         this.frame = frame;
         mouse = false;
         loadTableFromDB();
@@ -138,7 +143,7 @@ public class Inserisci {
         salvaModificheButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(modificaDB(isbnTextField.getText())) {
+                if (modificaDB(isbnTextField.getText())) {
                     loadTableFromDB();
                     resetItems();
                 }
@@ -152,12 +157,11 @@ public class Inserisci {
             int prezzo = Integer.parseInt(prezzoTextField.getText());
             int quantità = Integer.parseInt(quantitàTextField.getText());
             Statement statement = DBManager.getConnection().createStatement();
-            String sql = String.format("UPDATE books SET prezzo = %d ,quantità = %d WHERE isbn = '%s'", prezzo,
-                    quantità, isbn);
+            String sql = String.format("UPDATE books SET prezzo = %d ,quantità = %d WHERE isbn = '%s'", prezzo, quantità, isbn);
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"impossibile modificare",null,JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "impossibile modificare", null, JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;
@@ -228,6 +232,7 @@ public class Inserisci {
                 st.setInt(8, quantità);
                 st.execute();
                 st.close();
+                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione, quantità));
             } catch (SQLException h) {
                 h.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile inserire nel DB,libro già esistente", null, JOptionPane.INFORMATION_MESSAGE);
@@ -302,19 +307,19 @@ public class Inserisci {
         btnProfilo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Profilo profilo = new Profilo(frame);
+                Profilo profilo = new Profilo(frame, utente, carrello);
             }
         });
         btnRicerca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Ricerca cerca = new Ricerca(frame);
+                Ricerca cerca = new Ricerca(frame, utente, carrello);
             }
         });
         btnCarrello.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Carrello cart = new Carrello(frame);
+                Carrello cart = new Carrello(frame, utente, carrello);
             }
         });
     }
