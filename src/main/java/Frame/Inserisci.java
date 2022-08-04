@@ -13,10 +13,7 @@ import org.sqlite.core.DB;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
@@ -61,6 +58,7 @@ public class Inserisci {
     DefaultTableModel model;
     ListSelectionModel selectionModel;
     BufferedImage currentBufferedImage;
+    String immaginePath;
     boolean mouse;
     User utente;
     ArrayList<Book> carrello;
@@ -76,6 +74,7 @@ public class Inserisci {
         frame.setSize(1000, 600);
         frame.setContentPane(homePanel);
         frame.revalidate();
+        frame.setLocationRelativeTo(null);
     }
 
     private void buttonListeners() {
@@ -211,12 +210,14 @@ public class Inserisci {
         String università = universitàTextField.getText();
         BufferedImage immagine = currentBufferedImage;
         String descrizione = descrzioneTextPane.getText();
+        String path = immaginePath;
         if (!isbn.equals("") && !titolo.equals("") && !autore.equals("") && !università.equals("") && immagine != null && !prezzoTextField.getText().equals("") && !quantitàTextField.getText().equals("") && !descrizione.equals("")) {
             int prezzo = Integer.parseInt(prezzoTextField.getText());
             int quantità = Integer.parseInt(quantitàTextField.getText());
             try {
                 DBManager.setConnection();
-                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?,?,?,?,?)");
+                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?," +
+                        "?,?,?,?,?)");
                 st.setString(1, isbn);
                 st.setString(2, titolo);
                 st.setString(3, autore);
@@ -230,9 +231,11 @@ public class Inserisci {
                 st.setInt(6, prezzo);
                 st.setString(7, descrizione);
                 st.setInt(8, quantità);
+                st.setString(9, path);
                 st.execute();
                 st.close();
-                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione, quantità));
+                /*carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione,
+                        quantità, path));*/
             } catch (SQLException h) {
                 h.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile inserire nel DB,libro già esistente", null, JOptionPane.INFORMATION_MESSAGE);
@@ -248,12 +251,16 @@ public class Inserisci {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(new JFrame());
         try {
-            InputStream input = new FileInputStream(chooser.getSelectedFile());
+            /*ho aggiunto queste due righe di codice per avere il pathname dell'immagine*/
+            File immagineScelta = chooser.getSelectedFile();
+            immaginePath = immagineScelta.getAbsolutePath();
+            InputStream input = new FileInputStream(immagineScelta);
             BufferedImage immagine = Manager.inputStreamToBufferedImage(input);
             BufferedImage immagineScalata = Manager.resizeImage(immagine, 100, 100);
             immagineLabel.setText("");
             immagineLabel.setIcon(new ImageIcon(immagineScalata));
             currentBufferedImage = immagine;
+
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "impossibile scegliere immagine", null, JOptionPane.INFORMATION_MESSAGE);
         }
@@ -324,7 +331,7 @@ public class Inserisci {
         });
     }
 
-    private @NotNull DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
+    public static @NotNull DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
         ResultSetMetaData metaData = rs.getMetaData();
         // nomi delle colonne
         Vector<String> nomiColonne = new Vector<String>();

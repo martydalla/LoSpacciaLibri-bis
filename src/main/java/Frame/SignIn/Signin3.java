@@ -31,9 +31,10 @@ public class Signin3 {
         this.username = username;
         this.frame = frame;
         carrello = new ArrayList<>();
-        utente = new User(username, null, null, null, null, null, null, null);
+        utente = new User(username, null, null, null, null, null, null, null, null);
         frame.setContentPane(signin3Panel);
         frame.revalidate();
+        frame.setLocationRelativeTo(null);
         btnSignin.addActionListener(e -> {
             if (registrami()) {
                 new Ricerca(frame, utente, carrello);
@@ -46,7 +47,8 @@ public class Signin3 {
             università = tfUniversità.getText();
             try {
                 DBManager.setConnection();
-                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into users values(?,?,?,?,?,?,?,?)");
+                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into users values(?,?,?,?," +
+                        "?,?,?,?,?)");
                 st.setString(1, username);
                 st.setString(2, password);
                 st.setString(3, nome);

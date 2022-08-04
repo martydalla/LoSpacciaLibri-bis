@@ -11,13 +11,12 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         carrello = new ArrayList<>();
-        setLocationRelativeTo(null);
         setTitle("LoSpacciaLibri");
-        setSize(960, 600);
+        setSize(1000, 800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        setResizable(false);
+        setResizable(true);
         new StartImage(this);
     }
 

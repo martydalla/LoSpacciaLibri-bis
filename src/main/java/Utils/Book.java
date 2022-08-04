@@ -12,8 +12,10 @@ public class Book {
     int prezzo;
     String descrizione;
     int quantità;
+    String path;
 
-    public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo, String descrizione, int quantità) {
+    public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo,
+                String descrizione, int quantità, String path) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.autore = autore;
@@ -22,6 +24,7 @@ public class Book {
         this.prezzo = prezzo;
         this.descrizione = descrizione;
         this.quantità = quantità;
+        this.path = path;
     }
 
     @Override
@@ -103,8 +106,16 @@ public class Book {
         this.quantità = quantità;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
     public String toString() {
-        return "Book{" + "quantità='" + quantità + '\'' + '}';
+        return "Book{" + "isbn='" + isbn + '\'' + ", titolo='" + titolo + '\'' + ", autore='" + autore + '\'' + ", università='" + università + '\'' + ", immagine=" + immagine + ", prezzo=" + prezzo + ", descrizione='" + descrizione + '\'' + ", quantità=" + quantità + '}';
     }
 }

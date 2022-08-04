@@ -20,9 +20,10 @@ public class Signin extends JFrame {
     public Signin(MainFrame frame) {
         /*COSTRUTTORE*/
         this.frame = frame;
-        frame.setSize(500, 500);
+        frame.setSize(500, 400);
         frame.setContentPane(signinPanel);
         frame.revalidate();
+        frame.setLocationRelativeTo(null);
 
         /*CONTINUA*/
         btnContinua.addActionListener(e -> {

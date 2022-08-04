@@ -1,5 +1,6 @@
 package Utils;
 
+import java.awt.image.BufferedImage;
 import java.sql.Blob;
 import java.util.Objects;
 
@@ -9,11 +10,13 @@ public class User {
     String Nome;
     String Cognome;
     String Email;
-    Blob Immagine;
+    BufferedImage Immagine;
     String Università;
     Boolean Admin;
+    String Path;
 
-    public User(String username, String pw, String nome, String cognome, String email, Blob immagine, String università, Boolean admin) {
+    public User(String username, String pw, String nome, String cognome, String email, BufferedImage immagine, String università
+            , Boolean admin, String path) {
         Username = username;
         Pw = pw;
         Nome = nome;
@@ -22,6 +25,7 @@ public class User {
         Immagine = immagine;
         Università = università;
         Admin = admin;
+        Path = path;
     }
 
     public String getUsername() {
@@ -64,11 +68,11 @@ public class User {
         Email = email;
     }
 
-    public Blob getImmagine() {
+    public BufferedImage getImmagine() {
         return Immagine;
     }
 
-    public void setImmagine(Blob immagine) {
+    public void setImmagine(BufferedImage immagine) {
         Immagine = immagine;
     }
 
@@ -88,6 +92,14 @@ public class User {
         Admin = admin;
     }
 
+    public String getPath() {
+        return Path;
+    }
+
+    public void setPath(String path) {
+        Path = path;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -95,6 +107,6 @@ public class User {
         if (o == null || getClass() != o.getClass())
             return false;
         User user = (User) o;
-        return Objects.equals(Username, user.Username) && Objects.equals(Pw, user.Pw) && Objects.equals(Nome, user.Nome) && Objects.equals(Cognome, user.Cognome) && Objects.equals(Email, user.Email) && Objects.equals(Immagine, user.Immagine) && Objects.equals(Università, user.Università) && Objects.equals(Admin, user.Admin);
+        return Objects.equals(Username, user.Username) && Objects.equals(Pw, user.Pw) && Objects.equals(Nome, user.Nome) && Objects.equals(Cognome, user.Cognome) && Objects.equals(Email, user.Email) && Objects.equals(Immagine, user.Immagine) && Objects.equals(Università, user.Università) && Objects.equals(Admin, user.Admin) && Objects.equals(Path, user.Path);
     }
 }

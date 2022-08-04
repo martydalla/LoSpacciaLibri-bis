@@ -83,6 +83,7 @@ public class Carrello {
         frame.setSize(1000, 600);
         frame.setContentPane(homePanel);
         frame.revalidate();
+        frame.setLocationRelativeTo(null);
     }
 
     private void aggiungiAlCarrello(ArrayList<Book> list, Book b) {

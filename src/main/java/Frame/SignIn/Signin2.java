@@ -32,6 +32,7 @@ public class Signin2 extends JFrame {
         this.password = password;
         frame.setContentPane(signin2Panel);
         frame.revalidate();
+        frame.setLocationRelativeTo(null);
         aggiungiFotoButton.addActionListener(e -> loadFoto());
         btnContinua.addActionListener(e -> continua());
     }

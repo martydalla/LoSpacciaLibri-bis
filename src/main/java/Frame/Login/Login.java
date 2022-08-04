@@ -1,6 +1,7 @@
 package Frame.Login;
 
 import Frame.Profilo;
+import Frame.Ricerca;
 import Frame.Start.MainFrame;
 import Frame.SignIn.Signin;
 import Utils.Book;
@@ -25,20 +26,23 @@ public class Login {
     ArrayList<Book> carrello;
 
     public Login(JFrame frame) {
-        utente = new User(null, null, null, null, null, null, null, null);
+        utente = new User(null, null, null, null, null, null, null, null, null);
         carrello = new ArrayList<>();
+
         frame.setContentPane(loginPanel);
         frame.revalidate();
-        frame.setSize(400, 300);
+        frame.setSize(500, 400);
+        frame.setLocationRelativeTo(null);
+
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String username = tfUsername.getText();
                 String password = String.copyValueOf(pfPassword.getPassword());
-                System.out.print(username + password);
+
                 if (checkUser(username, password)) {
                     utente.setUsername(tfUsername.getText());
-                    Profilo profilo = new Profilo((MainFrame) frame, utente, carrello);
+                    Ricerca ricerca = new Ricerca((MainFrame) frame, utente, carrello);
                 } else {
                     lbErrore.setText("Username o password errata!");
                 }
@@ -65,7 +69,7 @@ public class Login {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                if (username.equals(String.format("%s", resultSet.getString("username"))) && password.equals(String.format("%s", resultSet.getString("pw")))) {
+                if (password.equals(String.format("%s", resultSet.getString("pw")))) {
                     return true;
                 }
             }
