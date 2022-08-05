@@ -143,6 +143,8 @@
                     <properties>
                       <background color="-14257437"/>
                       <borderPainted value="true"/>
+                      <doubleBuffered value="true"/>
+                      <focusCycleRoot value="false"/>
                       <font name="JetBrains Mono"/>
                       <foreground color="-1"/>
                       <text value="info"/>

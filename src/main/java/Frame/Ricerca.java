@@ -59,9 +59,11 @@ public class Ricerca {
     private JButton btnInfo4;
     private JPanel inPanel;
     ArrayList<Book> listaLibri;
+    ArrayList<Book> carrello;
     int startPosition;
 
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        this.carrello = carrello;
         listaLibri = new ArrayList<Book>();
 
         frame.setSize(1000, 600);
@@ -169,6 +171,7 @@ public class Ricerca {
                 libro.setQuantità(resultSet.getInt("quantità"));
                 libro.setPath(String.format("%s", resultSet.getString("path_immagine")));
                 listaLibri.add(libro);
+                carrello.add(libro);
             }
             statement.close();
         }
@@ -202,8 +205,10 @@ public class Ricerca {
             lbTitolo1.setText("Titolo:" + listaLibri.get(startPosition).getTitolo());
             lbAutore1.setText(("Autore:" + listaLibri.get(startPosition).getAutore()));
             lbPrezzo1.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
+
             btn1.setVisible(true);
             int finalStartPosition = startPosition;
+            //BUGGGG
             btn1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -215,8 +220,6 @@ public class Ricerca {
                     }else{
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
-
-                    ((AbstractButton) btn1).removeActionListener(this);
                 }
             });
 
@@ -228,6 +231,7 @@ public class Ricerca {
                     ((AbstractButton) btnInfo1).removeActionListener(this);
                 }
             });
+
             startPosition++;
         }
 
