@@ -61,6 +61,14 @@ public class Ricerca {
     ArrayList<Book> listaLibri;
     ArrayList<Book> carrello;
     int startPosition;
+    ActionListener btn1Push;
+    ActionListener btn2Push;
+    ActionListener btn3Push;
+    ActionListener btn4Push;
+    ActionListener btnInfo1Push;
+    ActionListener btnInfo2Push;
+    ActionListener btnInfo3Push;
+    ActionListener btnInfo4Push;
 
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
         this.carrello = carrello;
@@ -135,6 +143,15 @@ public class Ricerca {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(startPosition > 4){
+                    btn1.removeActionListener(btn1Push);
+                    btnInfo1.removeActionListener(btnInfo1Push);
+                    btn2.removeActionListener(btn2Push);
+                    btnInfo2.removeActionListener(btnInfo2Push);
+                    btn3.removeActionListener(btn3Push);
+                    btnInfo3.removeActionListener(btnInfo3Push);
+                    btn4.removeActionListener(btn4Push);
+                    btnInfo4.removeActionListener(btnInfo4Push);
+
                     startPosition--;
                     startPosition = startPosition - ((startPosition % 4) + 4);
                     startPosition = viewBooks(listaLibri, startPosition, carrello);
@@ -145,6 +162,15 @@ public class Ricerca {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(listaLibri.size() > 4){
+                    btn1.removeActionListener(btn1Push);
+                    btnInfo1.removeActionListener(btnInfo1Push);
+                    btn2.removeActionListener(btn2Push);
+                    btnInfo2.removeActionListener(btnInfo2Push);
+                    btn3.removeActionListener(btn3Push);
+                    btnInfo3.removeActionListener(btnInfo3Push);
+                    btn4.removeActionListener(btn4Push);
+                    btnInfo4.removeActionListener(btnInfo4Push);
+
                     startPosition = viewBooks(listaLibri, startPosition, carrello);
                 }
             }
@@ -209,10 +235,9 @@ public class Ricerca {
             btn1.setVisible(true);
             int finalStartPosition = startPosition;
             //BUGGGG
-            btn1.addActionListener(new ActionListener() {
+            btn1.addActionListener(btn1Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    //se quantità >= 1!!
                     System.out.print("posizione attuale" + finalStartPosition + "\n");
                     if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         carrello.add(listaLibri.get(finalStartPosition));
@@ -224,11 +249,10 @@ public class Ricerca {
             });
 
             btnInfo1.setVisible(true);
-            btnInfo1.addActionListener(new ActionListener() {
+            btnInfo1.addActionListener(btnInfo1Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     InfoBook info = new InfoBook(listaLibri, finalStartPosition);
-                    ((AbstractButton) btnInfo1).removeActionListener(this);
                 }
             });
 
@@ -245,14 +269,26 @@ public class Ricerca {
             lbPrezzo2.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
             btn2.setVisible(true);
             int finalStartPosition = startPosition;
-            btn2.addActionListener(new ActionListener() {
+            btn2.addActionListener(btn2Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    carrello.add(listaLibri.get(finalStartPosition));
+                    System.out.print("posizione attuale" + finalStartPosition + "\n");
+                    if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
+                        carrello.add(listaLibri.get(finalStartPosition));
+                        updateQuantità(listaLibri, finalStartPosition);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             });
 
             btnInfo2.setVisible(true);
+            btnInfo2.addActionListener(btnInfo2Push = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                }
+            });
 
             startPosition++;
         }else{
@@ -274,15 +310,26 @@ public class Ricerca {
             lbPrezzo3.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
             btn3.setVisible(true);
             int finalStartPosition = startPosition;
-            btn3.addActionListener(new ActionListener() {
+            btn3.addActionListener(btn3Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    carrello.add(listaLibri.get(finalStartPosition));
+                    System.out.print("posizione attuale" + finalStartPosition + "\n");
+                    if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
+                        carrello.add(listaLibri.get(finalStartPosition));
+                        updateQuantità(listaLibri, finalStartPosition);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             });
 
             btnInfo3.setVisible(true);
-
+            btnInfo3.addActionListener(btnInfo3Push = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                }
+            });
             startPosition++;
         }else{
             lbImage3.setIcon(null);
@@ -303,15 +350,26 @@ public class Ricerca {
             lbPrezzo4.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
             btn4.setVisible(true);
             int finalStartPosition = startPosition;
-            btn4.addActionListener(new ActionListener() {
+            btn4.addActionListener(btn4Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    carrello.add(listaLibri.get(finalStartPosition));
+                    System.out.print("posizione attuale" + finalStartPosition + "\n");
+                    if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
+                        carrello.add(listaLibri.get(finalStartPosition));
+                        updateQuantità(listaLibri, finalStartPosition);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             });
 
             btnInfo4.setVisible(true);
-
+            btnInfo4.addActionListener(btnInfo4Push = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                }
+            });
             startPosition++;
         }else{
             lbImage4.setIcon(null);
