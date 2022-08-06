@@ -58,6 +58,7 @@ public class Ricerca {
     private JButton btnInfo3;
     private JButton btnInfo4;
     private JPanel inPanel;
+    private JLabel lbInfo1;
     ArrayList<Book> listaLibri;
     ArrayList<Book> carrello;
     int startPosition;
@@ -98,6 +99,7 @@ public class Ricerca {
         ImageIcon iconDx = new ImageIcon(new ImageIcon("./Icon/arrowRight.png").getImage().getScaledInstance(34, 34,
                 Image.SCALE_DEFAULT));
         btnDX.setIcon(iconDx);
+
 
         btnLogout.addActionListener(new ActionListener() {
             @Override
@@ -228,17 +230,15 @@ public class Ricerca {
                     new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43,
                     Image.SCALE_DEFAULT));
             lbImage1.setIcon(icon1);
-            lbTitolo1.setText("Titolo:" + listaLibri.get(startPosition).getTitolo());
-            lbAutore1.setText(("Autore:" + listaLibri.get(startPosition).getAutore()));
-            lbPrezzo1.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
+            lbTitolo1.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
+            lbAutore1.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
+            lbPrezzo1.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
 
             btn1.setVisible(true);
             int finalStartPosition = startPosition;
-            //BUGGGG
             btn1.addActionListener(btn1Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.print("posizione attuale" + finalStartPosition + "\n");
                     if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
@@ -264,15 +264,14 @@ public class Ricerca {
                     new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43,
                             Image.SCALE_DEFAULT));
             lbImage2.setIcon(icon2);
-            lbTitolo2.setText("Titolo:" + listaLibri.get(startPosition).getTitolo());
-            lbAutore2.setText(("Autore:" + listaLibri.get(startPosition).getAutore()));
-            lbPrezzo2.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
+            lbTitolo2.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
+            lbAutore2.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
+            lbPrezzo2.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
             btn2.setVisible(true);
             int finalStartPosition = startPosition;
             btn2.addActionListener(btn2Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.print("posizione attuale" + finalStartPosition + "\n");
                     if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
@@ -305,15 +304,14 @@ public class Ricerca {
                     new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43,
                             Image.SCALE_DEFAULT));
             lbImage3.setIcon(icon3);
-            lbTitolo3.setText("Titolo:" + listaLibri.get(startPosition).getTitolo());
-            lbAutore3.setText(("Autore:" + listaLibri.get(startPosition).getAutore()));
-            lbPrezzo3.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
+            lbTitolo3.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
+            lbAutore3.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
+            lbPrezzo3.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
             btn3.setVisible(true);
             int finalStartPosition = startPosition;
             btn3.addActionListener(btn3Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.print("posizione attuale" + finalStartPosition + "\n");
                     if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
@@ -345,15 +343,14 @@ public class Ricerca {
                     new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43,
                             Image.SCALE_DEFAULT));
             lbImage4.setIcon(icon4);
-            lbTitolo4.setText("Titolo:" + listaLibri.get(startPosition).getTitolo());
-            lbAutore4.setText(("Autore:" + listaLibri.get(startPosition).getAutore()));
-            lbPrezzo4.setText("Prezzo:" + listaLibri.get(startPosition).getPrezzo());
+            lbTitolo4.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
+            lbAutore4.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
+            lbPrezzo4.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
             btn4.setVisible(true);
             int finalStartPosition = startPosition;
             btn4.addActionListener(btn4Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.print("posizione attuale" + finalStartPosition + "\n");
                     if(listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
