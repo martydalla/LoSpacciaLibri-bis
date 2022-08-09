@@ -13,6 +13,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +43,7 @@ public class Profilo extends Component {
     private JPanel tablePanel;
     ArrayList<Book> listaLibri;
     DefaultTableModel model;
+    BufferedImage image;
     public Profilo(MainFrame frame, User utente, ArrayList<Book> carrello) {
         listaLibri = new ArrayList<>();
         frame.setSize(1000, 600);
@@ -65,13 +67,14 @@ public class Profilo extends Component {
         lbCognome.setText(utente.getCognome());
         lbEmail.setText(utente.getEmail());
         lbUniversità.setText(utente.getUniversità());
-        ImageIcon immagineProfilo = null;
+        /*
         try {
-            immagineProfilo = Manager.resizeImage(utente.getImmagine(), 150, 180);
+           ImageIcon immagineProfilo = Manager.resizeImage(image, 150, 180);
+            lbImmagine.setIcon(immagineProfilo);
         } catch (IOException e) {
             System.out.println("Impossibile");
         }
-        lbImmagine.setIcon(immagineProfilo);
+         */
         lbConsigli.setText("Alcuni consigli visto che frequenti " + utente.getUniversità());
         setTable(utente);
         //azioni bottoni in basso
