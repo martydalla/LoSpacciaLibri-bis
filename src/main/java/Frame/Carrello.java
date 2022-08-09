@@ -6,14 +6,8 @@ import Utils.Book;
 import Utils.Manager;
 import Utils.User;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +26,6 @@ public class Carrello {
     private JPanel fourthPanel;
     private JPanel fifthPanel;
     private JLabel firstLabel;
-    private JTextPane firstDescription;
     private JTextPane secondDescription;
     private JTextPane thirdDescription;
     private JTextPane fourthDescription;
@@ -60,6 +53,7 @@ public class Carrello {
     private JSpinner firstQuantity;
     private JButton sButton;
     private JButton gButton;
+    private JLabel testoCarrello;
     JFrame frame;
     ArrayList<JTextPane> description;
     ArrayList<JTextField> price;
@@ -68,11 +62,9 @@ public class Carrello {
     ArrayList<JButton> deleteBotton;
     ArrayList<Book> carrello;
     User utente;
-    /*
-     *Carrello buggato fa vedere immagine in bianco e nero
-     */
 
     public Carrello(MainFrame frame, User utente, ArrayList<Book> carrello) {
+
         this.utente = utente;
         this.carrello = carrello;
         this.frame = frame;
@@ -80,14 +72,17 @@ public class Carrello {
         loadButtonIcons();
         buttonListeners();
         paintCarrello();
+
         frame.setSize(1000, 600);
+        frame.setResizable(false);
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
+        frame.pack();
     }
 
-    private void aggiungiAlCarrello(ArrayList<Book> list, Book b) {
-        for (Book i : carrello) {
+    public static void aggiungiAlCarrello(ArrayList<Book> list, Book b) {
+        for (Book i : list) {
             if (i.equals(b)) {
                 int h = i.getQuantità();
                 h++;
@@ -101,16 +96,36 @@ public class Carrello {
     private void paintCarrello() {
         initCarrello();
         setTot();
-        setImageLabels();
-        setItemsVisible();
         setItems();
+        setImageLabels();
     }
 
     private void setItems() {
+        if(countItems() == 0)
+        {
+            testoCarrello.setText("Carrello Vuoto");
+        }else {
+            testoCarrello.setText("Carrello");
+        }
         for (int i = 0; i < countItems() && i < 4; i++) {
             quantity.get(i).setValue(carrello.get(i).getQuantità());
-            description.get(i).setText(carrello.get(i).getDescrizione());
+            quantity.get(i).setEnabled(true);
+            description.get(i).setText("Titolo: " + carrello.get(i).getTitolo() + "\n" + "Autore: " + carrello.get(i).getAutore());
             price.get(i).setText(String.valueOf(carrello.get(i).getPrezzo()));
+            deleteBotton.get(i).setEnabled(true);
+        }
+        for (int i = countItems(); i < 4; i++) {
+            quantity.get(i).setEnabled(false);
+            description.get(i).setEnabled(false);
+            price.get(i).setEnabled(false);
+            deleteBotton.get(i).setEnabled(false);
+        }
+        if (countItems() > 4) {
+            sButton.setVisible(true);
+            gButton.setVisible(true);
+        } else {
+            sButton.setVisible(false);
+            gButton.setVisible(false);
         }
     }
 
@@ -128,56 +143,40 @@ public class Carrello {
 
     private void setImageLabels() {
         for (int i = 0; i < countItems() && i < 4; i++) {
-            BufferedImage immagine = null;
+            ImageIcon immagine = null;
             try {
                 immagine = Manager.resizeImage(carrello.get(i).getImmagine(), 70, 70);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            label.get(i).setIcon(new ImageIcon(immagine));
-        }
-    }
-
-    private void setItemsVisible() {
-        if (countItems() < 4) {
-            sButton.setVisible(false);
-            gButton.setVisible(false);
-        } else {
-            sButton.setVisible(true);
-            gButton.setVisible(true);
-        }
-        for (int i = 0; i < countItems() && i < 4; i++) {
-            quantity.get(i).setVisible(true);
-            quantity.get(i).setEnabled(true);
-            description.get(i).setVisible(true);
-            price.get(i).setVisible(true);
-            label.get(i).setVisible(true);
-            deleteBotton.get(i).setVisible(true);
-            deleteBotton.get(i).setEnabled(true);
+            label.get(i).setIcon(immagine);
         }
     }
 
     private void initCarrello() {
+        loadArrays();
         for (JSpinner i : quantity) {
             i.setEnabled(false);
-            i.setVisible(false);
+            i.setBackground(Color.white);
         }
         for (JTextPane i : description) {
             i.setEnabled(false);
-            i.setVisible(false);
+            i.setText("");
+            i.setBackground(Color.white);
         }
         for (JTextField i : price) {
             i.setEnabled(false);
-            i.setVisible(false);
+            i.setText("");
+            i.setBackground(Color.white);
         }
         for (JButton i : deleteBotton) {
             i.setEnabled(false);
-            i.setVisible(false);
+            i.setBackground(Color.white);
         }
         for (JLabel i : label) {
-            i.setEnabled(false);
-            i.setVisible(false);
+            i.setIcon(new ImageIcon(new ImageIcon("./Icon/logo.png").getImage().getScaledInstance(70,70,Image.SCALE_DEFAULT)));
         }
+
         return;
     }
 

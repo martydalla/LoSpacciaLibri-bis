@@ -1,12 +1,10 @@
 package Utils;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -14,12 +12,16 @@ import java.sql.SQLException;
 /*FUNZIONI UTILI*/
 
 public class Manager {
-    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        /*TOGLIE I COLORI NON SO PERCHE'*/
+    public static ImageIcon resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        /*La funzione converte da Buffered image a ImageIcon scalando*/
+        ImageIcon inputImmagine = new ImageIcon(originalImage);
+        ImageIcon outputImmagine = new ImageIcon(inputImmagine.getImage().getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT));
+        /*
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
         BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
         outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-        return outputImage;
+        */
+        return outputImmagine;
     }
 
     public static InputStream bufferedImageToInputStream(BufferedImage immagine) throws IOException {

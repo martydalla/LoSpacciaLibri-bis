@@ -19,6 +19,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -72,9 +73,11 @@ public class Inserisci {
         setIconButton();
         buttonListeners();
         frame.setSize(1000, 600);
+        frame.setResizable(false);
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
+        frame.pack();
     }
 
     private void buttonListeners() {
@@ -182,7 +185,11 @@ public class Inserisci {
         descrzioneTextPane.setText("");
         descrzioneTextPane.setEnabled(true);
         immagineLabel.setIcon(null);
-        currentBufferedImage = null;
+        try {
+            currentBufferedImage = ImageIO.read(new File("./Icon/logo.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         immagineLabel.setText("immagine");
     }
 
@@ -234,8 +241,8 @@ public class Inserisci {
                 st.setString(9, path);
                 st.execute();
                 st.close();
-                /*carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione,
-                        quantità, path));*/
+                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione,
+                        quantità, path));
             } catch (SQLException h) {
                 h.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile inserire nel DB,libro già esistente", null, JOptionPane.INFORMATION_MESSAGE);
@@ -256,9 +263,9 @@ public class Inserisci {
             immaginePath = immagineScelta.getAbsolutePath();
             InputStream input = new FileInputStream(immagineScelta);
             BufferedImage immagine = Manager.inputStreamToBufferedImage(input);
-            BufferedImage immagineScalata = Manager.resizeImage(immagine, 100, 100);
+            ImageIcon immagineScalata = Manager.resizeImage(immagine, 150, 180);
             immagineLabel.setText("");
-            immagineLabel.setIcon(new ImageIcon(immagineScalata));
+            immagineLabel.setIcon(immagineScalata);
             currentBufferedImage = immagine;
 
         } catch (IOException ex) {

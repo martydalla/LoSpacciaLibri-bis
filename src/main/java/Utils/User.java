@@ -73,7 +73,7 @@ public class User {
     }
 
     public void setImmagine(BufferedImage immagine) {
-        Immagine = immagine;
+        this.Immagine = immagine;
     }
 
     public String getUniversità() {

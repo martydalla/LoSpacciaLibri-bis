@@ -1,11 +1,13 @@
 package Frame.SignIn;
 
 import Frame.Start.MainFrame;
+import Utils.Manager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,11 +32,19 @@ public class Signin2 extends JFrame {
         this.frame = frame;
         this.username = username;
         this.password = password;
+        try {
+            image = ImageIO.read(new File("./Icon/omino.jpeg"));
+            fotoLabel.setIcon(Manager.resizeImage(image, 100, 100));
+            input = Manager.bufferedImageToInputStream(image);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        aggiungiFotoButton.addActionListener(e -> loadFoto());
+        btnContinua.addActionListener(e -> continua());
+
         frame.setContentPane(signin2Panel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-        aggiungiFotoButton.addActionListener(e -> loadFoto());
-        btnContinua.addActionListener(e -> continua());
     }
 
     private void continua() {
@@ -60,7 +70,7 @@ public class Signin2 extends JFrame {
         try {
             input = new FileInputStream(chooser.getSelectedFile());
             image = ImageIO.read(input);
-            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT)));
+            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

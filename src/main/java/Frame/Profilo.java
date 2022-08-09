@@ -4,6 +4,7 @@ import Frame.Login.Login;
 import Frame.Start.MainFrame;
 import Utils.Book;
 import Utils.DBManager;
+import Utils.Manager;
 import Utils.User;
 
 import javax.swing.*;
@@ -13,6 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,15 +42,13 @@ public class Profilo extends Component {
     private JPanel tablePanel;
     ArrayList<Book> listaLibri;
     DefaultTableModel model;
-
     public Profilo(MainFrame frame, User utente, ArrayList<Book> carrello) {
         listaLibri = new ArrayList<>();
-
         frame.setSize(1000, 600);
+        frame.setResizable(false);
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-
         //icone sui bottoni
         ImageIcon iconProfilo = new ImageIcon(new ImageIcon("./Icon/user.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnProfilo.setIcon(iconProfilo);
@@ -56,7 +58,6 @@ public class Profilo extends Component {
         btnInserisci.setIcon(iconInserisci);
         ImageIcon iconCarrello = new ImageIcon(new ImageIcon("./Icon/cart.png").getImage().getScaledInstance(43, 35, Image.SCALE_DEFAULT));
         btnCarrello.setIcon(iconCarrello);
-
         //azioni pannello profilo
         searchUser(utente);
         lbUsername.setText(utente.getUsername());
@@ -64,13 +65,15 @@ public class Profilo extends Component {
         lbCognome.setText(utente.getCognome());
         lbEmail.setText(utente.getEmail());
         lbUniversità.setText(utente.getUniversità());
-        ImageIcon immagineProfilo = new ImageIcon(new ImageIcon(utente.getPath()).getImage().getScaledInstance(86, 70,
-                Image.SCALE_DEFAULT));
+        ImageIcon immagineProfilo = null;
+        try {
+            immagineProfilo = Manager.resizeImage(utente.getImmagine(), 150, 180);
+        } catch (IOException e) {
+            System.out.println("Impossibile");
+        }
         lbImmagine.setIcon(immagineProfilo);
         lbConsigli.setText("Alcuni consigli visto che frequenti " + utente.getUniversità());
         setTable(utente);
-
-
         //azioni bottoni in basso
         btnLogout.addActionListener(new ActionListener() {
             @Override
@@ -117,6 +120,7 @@ public class Profilo extends Component {
                 utente.setCognome(String.format("%s", resultSet.getString("cognome")));
                 utente.setEmail(String.format("%s", resultSet.getString("email")));
                 utente.setUniversità(String.format("%s", resultSet.getString("università")));
+                /*?????*/
                 utente.setPath(String.format("%s", resultSet.getString("path_immagine")));
             }
             statement.close();
@@ -125,7 +129,7 @@ public class Profilo extends Component {
         }
     }
 
-    private void selectPhoto(User utente){
+    private void selectPhoto(User utente) {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(this);
         File image = chooser.getSelectedFile();
@@ -133,30 +137,27 @@ public class Profilo extends Component {
         utente.setPath(newPath);
     }
 
-    public void changeImage(User utente){
+    public void changeImage(User utente) {
         DBManager.setConnection();
         PreparedStatement statement = null;
         try {
-            statement = DBManager.getConnection().prepareStatement("update users set path_immagine = ? where username" +
-                    " = ?");
+            statement = DBManager.getConnection().prepareStatement("update users set path_immagine = ? where username" + " = ?");
             statement.setString(1, utente.getPath());
             statement.setString(2, utente.getUsername());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void setTable(User utente){
+    public void setTable(User utente) {
         DBManager.setConnection();
         PreparedStatement statement = null;
         try {
-            statement = DBManager.getConnection().prepareStatement("select titolo, autore, prezzo from books " +
-                    "where università" + " = ?");
+            statement = DBManager.getConnection().prepareStatement("select titolo, autore, prezzo from books " + "where università" + " = ?");
             statement.setString(1, utente.getUniversità());
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 model = Inserisci.buildTableModel(resultSet);
                 bookTable.setModel(model);
                 bookTable.setDefaultEditor(Object.class, null);
@@ -164,7 +165,5 @@ public class Profilo extends Component {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
 }

@@ -57,10 +57,12 @@ public class Signin3 {
                 st.setBlob(6, input);
                 st.setString(7, università);
                 st.setBoolean(8, false);
+                st.setString(9,"path boh");
                 st.execute();
                 st.close();
                 JOptionPane.showMessageDialog(null, "Benvenuto Piskello!", null, JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile eseguire registrazione", null, JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
