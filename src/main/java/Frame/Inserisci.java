@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -77,14 +78,14 @@ public class Inserisci {
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-        frame.pack();
+        //frame.pack();
     }
 
     private void buttonListeners() {
         rimuoviButton.addActionListener(e -> {
             ListSelectionModel selectionModel = table.getSelectionModel();
             if (!selectionModel.isSelectionEmpty()) {
-                removeFromDB((String) model.getValueAt(table.getSelectedRow(), 0));
+                removeFromDB((String) model.getValueAt(table.getSelectedRow(), 4));
                 model.removeRow(table.getSelectedRow());
             }
         });
@@ -223,8 +224,7 @@ public class Inserisci {
             int quantità = Integer.parseInt(quantitàTextField.getText());
             try {
                 DBManager.setConnection();
-                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?," +
-                        "?,?,?,?,?)");
+                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?," + "?,?,?,?,?)");
                 st.setString(1, isbn);
                 st.setString(2, titolo);
                 st.setString(3, autore);
@@ -241,8 +241,7 @@ public class Inserisci {
                 st.setString(9, path);
                 st.execute();
                 st.close();
-                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione,
-                        quantità, path));
+                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione, quantità, path));
             } catch (SQLException h) {
                 h.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile inserire nel DB,libro già esistente", null, JOptionPane.INFORMATION_MESSAGE);
@@ -263,11 +262,10 @@ public class Inserisci {
             immaginePath = immagineScelta.getAbsolutePath();
             InputStream input = new FileInputStream(immagineScelta);
             BufferedImage immagine = Manager.inputStreamToBufferedImage(input);
-            ImageIcon immagineScalata = Manager.resizeImage(immagine, 150, 180);
+            ImageIcon immagineScalata = Manager.resizeImage(immagine, 100, 130);
             immagineLabel.setText("");
             immagineLabel.setIcon(immagineScalata);
             currentBufferedImage = immagine;
-
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "impossibile scegliere immagine", null, JOptionPane.INFORMATION_MESSAGE);
         }
@@ -346,6 +344,7 @@ public class Inserisci {
         for (int colonna = 1; colonna <= numeroColonne; colonna++) {
             nomiColonne.add(metaData.getColumnName(colonna));
         }
+        Collections.swap(nomiColonne, 0, 4);
         // dati in tabella
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
         while (rs.next()) {
@@ -353,8 +352,9 @@ public class Inserisci {
             for (int columnIndex = 1; columnIndex <= numeroColonne; columnIndex++) {
                 vector.add(rs.getObject(columnIndex));
             }
+            Collections.swap(vector, 0, 4);
             data.add(vector);
         }
-        return new DefaultTableModel(data, nomiColonne);
+       return new DefaultTableModel(data,nomiColonne);
     }
 }

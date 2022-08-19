@@ -1,6 +1,7 @@
 package Frame.Start;
 
 import Utils.Book;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.lang.reflect.Array;
@@ -21,6 +22,11 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
         new MainFrame();
     }
 }
