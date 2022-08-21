@@ -19,10 +19,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.QuadCurve2D;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.InputStream;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,9 +46,14 @@ public class Carrello {
     JButton button = new JButton();
 
     public Carrello(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        btnCarrello.setBackground(new Color(60, 63, 65));
+        btnInserisci.setBackground(new Color(60, 63, 65));
+        btnProfilo.setBackground(new Color(60, 63, 65));
+        btnRicerca.setBackground(new Color(60, 63, 65));
         this.utente = utente;
         this.carrello = carrello;
         this.frame = frame;
+        //debug();
         paintCarrello();
         frame.setSize(1000, 600);
         frame.setResizable(false);
@@ -119,12 +122,10 @@ public class Carrello {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
             }
         });
         carrelloTable.getModel().addTableModelListener(new TableModelListener() {
@@ -172,7 +173,7 @@ public class Carrello {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnCarrello.setBackground(new Color(60,63,65));
+                btnCarrello.setBackground(new Color(60, 63, 65));
             }
         });
         btnInserisci.addMouseListener(new MouseListener() {
@@ -195,7 +196,7 @@ public class Carrello {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnInserisci.setBackground(new Color(60,63,65));
+                btnInserisci.setBackground(new Color(60, 63, 65));
             }
         });
         btnProfilo.addMouseListener(new MouseListener() {
@@ -218,7 +219,7 @@ public class Carrello {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnProfilo.setBackground(new Color(60,63,65));
+                btnProfilo.setBackground(new Color(60, 63, 65));
             }
         });
         btnRicerca.addMouseListener(new MouseListener() {
@@ -241,9 +242,44 @@ public class Carrello {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnRicerca.setBackground(new Color(60,63,65));
+                btnRicerca.setBackground(new Color(60, 63, 65));
             }
         });
+    }
+
+    public void debug() {
+        DBManager.setConnection();
+        try {
+            PreparedStatement statement = DBManager.getConnection().prepareStatement("select * from books");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Book libro = new Book(null, null, null, null, null, 0, null, 0);
+                libro.setIsbn(String.format("%s", resultSet.getString("isbn")));
+                libro.setTitolo(String.format("%s", resultSet.getString("titolo")));
+                libro.setAutore(String.format("%s", resultSet.getString("autore")));
+                libro.setUniversità(String.format("%s", resultSet.getString("università")));
+                /****/
+                //Modificato da ayoub
+                /*
+                non ha senso usare il path, dato che cambia da pc a pc. se sposti l'immagine da una cartella
+                all'altra o se la elimini dal pc?
+                Bisogna salvare i dati e rileggerli
+                */
+                Blob immagine = resultSet.getBlob("immagine");
+                InputStream output = immagine.getBinaryStream(1, immagine.length());
+                libro.setImmagine(Manager.inputStreamToBufferedImage(output));
+                /****/
+                libro.setPrezzo(resultSet.getInt("prezzo"));
+                libro.setDescrizione(String.format("%s", resultSet.getString("descrizione")));
+                libro.setQuantità(resultSet.getInt("quantità"));
+                carrello.add(libro);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void aggiungiAlCarrello(ArrayList<Book> list, Book b) {

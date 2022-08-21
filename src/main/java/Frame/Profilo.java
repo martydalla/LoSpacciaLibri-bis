@@ -44,6 +44,10 @@ public class Profilo extends Component {
     BufferedImage image;
 
     public Profilo(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        btnCarrello.setBackground(new Color(60, 63, 65));
+        btnInserisci.setBackground(new Color(60, 63, 65));
+        btnProfilo.setBackground(new Color(60, 63, 65));
+        btnRicerca.setBackground(new Color(60, 63, 65));
         listaLibri = new ArrayList<>();
         frame.setSize(1000, 600);
         frame.setResizable(false);
@@ -79,7 +83,7 @@ public class Profilo extends Component {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnCarrello.setBackground(new Color(60,63,65));
+                btnCarrello.setBackground(new Color(60, 63, 65));
             }
         });
         btnInserisci.addMouseListener(new MouseListener() {
@@ -102,7 +106,7 @@ public class Profilo extends Component {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnInserisci.setBackground(new Color(60,63,65));
+                btnInserisci.setBackground(new Color(60, 63, 65));
             }
         });
         btnProfilo.addMouseListener(new MouseListener() {
@@ -125,7 +129,7 @@ public class Profilo extends Component {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnProfilo.setBackground(new Color(60,63,65));
+                btnProfilo.setBackground(new Color(60, 63, 65));
             }
         });
         btnRicerca.addMouseListener(new MouseListener() {
@@ -148,7 +152,7 @@ public class Profilo extends Component {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnRicerca.setBackground(new Color(60,63,65));
+                btnRicerca.setBackground(new Color(60, 63, 65));
             }
         });
         //azioni pannello profilo

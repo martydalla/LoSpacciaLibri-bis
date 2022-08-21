@@ -79,6 +79,10 @@ public class Ricerca {
     //LA PRIMA VOLTA CHE SI SCHIACCIA SU ACQUISTA AGGIUNGE TUTTI I LIBRI IN MAGAZZINO
 
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        btnCarrello.setBackground(new Color(60, 63, 65));
+        btnInserisci.setBackground(new Color(60, 63, 65));
+        btnProfilo.setBackground(new Color(60, 63, 65));
+        btnRicerca.setBackground(new Color(60, 63, 65));
         this.carrello = carrello;
         listaLibri = new ArrayList<Book>();
         frame.setSize(1000, 600);
@@ -95,11 +99,11 @@ public class Ricerca {
         ImageIcon iconCarrello = new ImageIcon(new ImageIcon("./Icon/IconaCarrello.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnCarrello.setIcon(iconCarrello);
         //azioni pannello interno
-        iconRicerca.getImage().getScaledInstance(21, 21, Image.SCALE_DEFAULT);
+        iconRicerca.getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT);
         searchImage.setIcon(iconRicerca);
-        ImageIcon iconSx = new ImageIcon(new ImageIcon("./Icon/arrowLeft.png").getImage().getScaledInstance(35, 30, Image.SCALE_DEFAULT));
+        ImageIcon iconSx = new ImageIcon(new ImageIcon("./Icon/IconaFrecciaIndietro.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         btnSX.setIcon(iconSx);
-        ImageIcon iconDx = new ImageIcon(new ImageIcon("./Icon/arrowRight.png").getImage().getScaledInstance(34, 34, Image.SCALE_DEFAULT));
+        ImageIcon iconDx = new ImageIcon(new ImageIcon("./Icon/IconaFrecciaAvanti.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         btnDX.setIcon(iconDx);
         btnCarrello.addMouseListener(new MouseListener() {
             @Override
@@ -275,7 +279,7 @@ public class Ricerca {
             statement.setString(1, "%" + title + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Book libro = new Book(null, null, null, null, null, 0, null, 0, null);
+                Book libro = new Book(null, null, null, null, null, 0, null, 0);
                 libro.setIsbn(String.format("%s", resultSet.getString("isbn")));
                 libro.setTitolo(String.format("%s", resultSet.getString("titolo")));
                 libro.setAutore(String.format("%s", resultSet.getString("autore")));
@@ -294,7 +298,6 @@ public class Ricerca {
                 libro.setPrezzo(resultSet.getInt("prezzo"));
                 libro.setDescrizione(String.format("%s", resultSet.getString("descrizione")));
                 libro.setQuantità(resultSet.getInt("quantità"));
-                libro.setPath(String.format("%s", resultSet.getString("path_immagine")));
                 listaLibri.add(libro);
             }
             statement.close();
@@ -323,8 +326,15 @@ public class Ricerca {
 
     public int viewBooks(ArrayList<Book> listaLibri, int startPosition, ArrayList<Book> carrello) {
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-            lbImage1.setIcon(icon1);
+            /*MODIFICATO DA AYOUB*/
+            //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
+            // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            try {
+                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                lbImage1.setIcon(icon1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             lbTitolo1.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore1.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
             lbPrezzo1.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
@@ -353,8 +363,15 @@ public class Ricerca {
             startPosition++;
         }
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon2 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-            lbImage2.setIcon(icon2);
+            /*MODIFICATO DA AYOUB*/
+            //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
+            // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            try {
+                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                lbImage2.setIcon(icon2);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             lbTitolo2.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore2.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
             lbPrezzo2.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
@@ -390,8 +407,15 @@ public class Ricerca {
             btnInfo2.setVisible(false);
         }
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon3 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
-            lbImage3.setIcon(icon3);
+            /*MODIFICATO DA AYOUB*/
+            //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
+            // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            try {
+                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                lbImage3.setIcon(icon3);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             lbTitolo3.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore3.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
             lbPrezzo3.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());
@@ -427,8 +451,15 @@ public class Ricerca {
             btnInfo3.setVisible(false);
         }
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon4 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
-            lbImage4.setIcon(icon4);
+            /*MODIFICATO DA AYOUB*/
+            //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
+            // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            try {
+                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                lbImage4.setIcon(icon4);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             lbTitolo4.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore4.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
             lbPrezzo4.setText("Prezzo: " + listaLibri.get(startPosition).getPrezzo());

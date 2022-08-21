@@ -15,7 +15,7 @@ public class Book {
     String path;
 
     public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo,
-                String descrizione, int quantità, String path) {
+                String descrizione, int quantità) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.autore = autore;
@@ -24,7 +24,6 @@ public class Book {
         this.prezzo = prezzo;
         this.descrizione = descrizione;
         this.quantità = quantità;
-        this.path = path;
     }
 
     @Override

@@ -68,6 +68,10 @@ public class Inserisci {
     ImageIcon defaultIcon = new ImageIcon(new ImageIcon("Icon/logo.png").getImage().getScaledInstance(100, 130, Image.SCALE_DEFAULT));
 
     public Inserisci(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        btnCarrello.setBackground(new Color(60, 63, 65));
+        btnInserisci.setBackground(new Color(60, 63, 65));
+        btnProfilo.setBackground(new Color(60, 63, 65));
+        btnRicerca.setBackground(new Color(60, 63, 65));
         this.carrello = carrello;
         this.utente = utente;
         this.frame = frame;
@@ -107,7 +111,7 @@ public class Inserisci {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnCarrello.setBackground(new Color(60,63,65));
+                btnCarrello.setBackground(new Color(60, 63, 65));
             }
         });
         btnInserisci.addMouseListener(new MouseListener() {
@@ -130,7 +134,7 @@ public class Inserisci {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnInserisci.setBackground(new Color(60,63,65));
+                btnInserisci.setBackground(new Color(60, 63, 65));
             }
         });
         btnProfilo.addMouseListener(new MouseListener() {
@@ -153,7 +157,7 @@ public class Inserisci {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnProfilo.setBackground(new Color(60,63,65));
+                btnProfilo.setBackground(new Color(60, 63, 65));
             }
         });
         btnRicerca.addMouseListener(new MouseListener() {
@@ -176,7 +180,7 @@ public class Inserisci {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnRicerca.setBackground(new Color(60,63,65));
+                btnRicerca.setBackground(new Color(60, 63, 65));
             }
         });
     }
@@ -316,13 +320,12 @@ public class Inserisci {
         String autore = autoreTextField.getText();
         String università = universitàTextField.getText();
         String descrizione = descrzioneTextPane.getText();
-        String path = immaginePath;
         if (!isbn.equals("") && !titolo.equals("") && !autore.equals("") && !università.equals("") && currentBufferedImage != null && !prezzoTextField.getText().equals("") && !quantitàTextField.getText().equals("") && !descrizione.equals("")) {
             int prezzo = Integer.parseInt(prezzoTextField.getText());
             int quantità = Integer.parseInt(quantitàTextField.getText());
             try {
                 DBManager.setConnection();
-                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?," + "?,?,?,?,?)");
+                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values (?,?,?,?," + "?,?,?,?)");
                 st.setString(1, isbn);
                 st.setString(2, titolo);
                 st.setString(3, autore);
@@ -336,10 +339,10 @@ public class Inserisci {
                 st.setInt(6, prezzo);
                 st.setString(7, descrizione);
                 st.setInt(8, quantità);
-                st.setString(9, path);
                 st.execute();
                 st.close();
-                carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione, quantità, path));
+                //carrello.add(new Book(isbn, titolo, autore, università, currentBufferedImage, prezzo, descrizione,
+                //quantità));
             } catch (SQLException h) {
                 h.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Impossibile inserire nel DB,libro già esistente", null, JOptionPane.INFORMATION_MESSAGE);
