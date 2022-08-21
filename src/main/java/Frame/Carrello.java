@@ -3,18 +3,29 @@ package Frame;
 import Frame.Login.Login;
 import Frame.Start.MainFrame;
 import Utils.Book;
+import Utils.DBManager;
 import Utils.Manager;
 import Utils.User;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.QuadCurve2D;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Carrello {
     private JButton btnProfilo;
@@ -46,8 +57,6 @@ public class Carrello {
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-        //frame.pack();
-        // icone sui bottoni
         ImageIcon iconProfilo = new ImageIcon(new ImageIcon("./Icon/user.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnProfilo.setIcon(iconProfilo);
         ImageIcon iconRicerca = new ImageIcon(new ImageIcon("./Icon/search.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
@@ -92,6 +101,55 @@ public class Carrello {
                 paintCarrello();
             }
         });
+        carrelloTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (carrelloTable.getSelectedRow() >= 0 && carrelloTable.getSelectedColumn() == 0) {
+                    new InfoBook(carrello, carrelloTable.getSelectedRow());
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        carrelloTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                Integer valore = (Integer) carrelloTable.getValueAt(carrelloTable.getSelectedRow(), 3);
+                int selected = carrelloTable.getSelectedRow();
+                try {
+                    DBManager.setConnection();
+                    String sql = "select * from books where isbn = " + carrello.get(carrelloTable.getSelectedRow()).getIsbn();
+                    Statement statement = DBManager.getConnection().createStatement();
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    if (resultSet.next()) {
+                        int confronto = resultSet.getInt("quantità");
+                        if (valore > confronto) {
+                            JOptionPane.showMessageDialog(null, "Quantità non disponibile in magazzino", "Controllo " + "quantità", JOptionPane.INFORMATION_MESSAGE);
+                            paintCarrello();
+                            return;
+                        }
+                    }
+                    carrello.get(selected).setQuantità(valore.intValue());
+                    paintCarrello();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
     public static void aggiungiAlCarrello(ArrayList<Book> list, Book b) {
@@ -104,7 +162,7 @@ public class Carrello {
 
     private void buildTable() {
         model = new DefaultTableModel(new Object[][]{}, new String[]{"Immagine", "Titolo", "Prezzo", "Quantità", "Elimina"}) {
-            boolean[] edit = {false, false, false, false, true};
+            boolean[] edit = {false, false, false, true, true};
             Class[] types = new Class[]{Icon.class, String.class, Integer.class, Integer.class, JButton.class};
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Vector;
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,12 +65,20 @@ public class Inserisci {
     boolean mouse;
     User utente;
     ArrayList<Book> carrello;
+    ImageIcon defaultIcon = new ImageIcon(new ImageIcon("Icon/logo.png").getImage().getScaledInstance(100, 130, Image.SCALE_DEFAULT));
 
     public Inserisci(MainFrame frame, User utente, ArrayList<Book> carrello) {
         this.carrello = carrello;
         this.utente = utente;
         this.frame = frame;
         mouse = false;
+        immagineLabel.setText("");
+        immagineLabel.setIcon(defaultIcon);
+        try {
+            currentBufferedImage = ImageIO.read(new File("./Icon/logo.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         loadTableFromDB();
         setIconButton();
         buttonListeners();
@@ -78,7 +87,6 @@ public class Inserisci {
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-        //frame.pack();
     }
 
     private void buttonListeners() {
@@ -93,7 +101,7 @@ public class Inserisci {
             ListSelectionModel selectionModel = table.getSelectionModel();
             if (!selectionModel.isSelectionEmpty()) {
                 isbnTextField.setEnabled(false);
-                isbnTextField.setText((String) model.getValueAt(table.getSelectedRow(), 0));
+                isbnTextField.setText((String) model.getValueAt(table.getSelectedRow(), 4));
                 titoloTextField.setText((String) model.getValueAt(table.getSelectedRow(), 1));
                 titoloTextField.setEnabled(false);
                 autoreTextField.setText((String) model.getValueAt(table.getSelectedRow(), 2));
@@ -185,18 +193,17 @@ public class Inserisci {
         universitàTextField.setEnabled(true);
         descrzioneTextPane.setText("");
         descrzioneTextPane.setEnabled(true);
-        immagineLabel.setIcon(null);
+        immagineLabel.setText("");
+        immagineLabel.setIcon(defaultIcon);
         try {
             currentBufferedImage = ImageIO.read(new File("./Icon/logo.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        immagineLabel.setText("immagine");
     }
 
     private void loadTableFromDB() {
         /*FUNZIONA*/
-        currentBufferedImage = null;
         selectionModel = table.getSelectionModel();
         DBManager.setConnection();
         try {
@@ -216,10 +223,9 @@ public class Inserisci {
         String titolo = titoloTextField.getText();
         String autore = autoreTextField.getText();
         String università = universitàTextField.getText();
-        BufferedImage immagine = currentBufferedImage;
         String descrizione = descrzioneTextPane.getText();
         String path = immaginePath;
-        if (!isbn.equals("") && !titolo.equals("") && !autore.equals("") && !università.equals("") && immagine != null && !prezzoTextField.getText().equals("") && !quantitàTextField.getText().equals("") && !descrizione.equals("")) {
+        if (!isbn.equals("") && !titolo.equals("") && !autore.equals("") && !università.equals("") && currentBufferedImage != null && !prezzoTextField.getText().equals("") && !quantitàTextField.getText().equals("") && !descrizione.equals("")) {
             int prezzo = Integer.parseInt(prezzoTextField.getText());
             int quantità = Integer.parseInt(quantitàTextField.getText());
             try {
@@ -230,7 +236,7 @@ public class Inserisci {
                 st.setString(3, autore);
                 st.setString(4, università);
                 try {
-                    st.setBlob(5, Manager.bufferedImageToInputStream(immagine));
+                    st.setBlob(5, Manager.bufferedImageToInputStream(currentBufferedImage));
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "errore conversione immagine", null, JOptionPane.INFORMATION_MESSAGE);
                     return false;
@@ -355,6 +361,6 @@ public class Inserisci {
             Collections.swap(vector, 0, 4);
             data.add(vector);
         }
-       return new DefaultTableModel(data,nomiColonne);
+        return new DefaultTableModel(data, nomiColonne);
     }
 }
