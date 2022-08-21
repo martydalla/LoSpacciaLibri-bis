@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -74,7 +76,6 @@ public class Ricerca {
     ActionListener btnInfo2Push;
     ActionListener btnInfo3Push;
     ActionListener btnInfo4Push;
-
     //LA PRIMA VOLTA CHE SI SCHIACCIA SU ACQUISTA AGGIUNGE TUTTI I LIBRI IN MAGAZZINO
 
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
@@ -85,13 +86,13 @@ public class Ricerca {
         frame.setContentPane(homePanel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
-        ImageIcon iconProfilo = new ImageIcon(new ImageIcon("./Icon/user.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
+        ImageIcon iconProfilo = new ImageIcon(new ImageIcon("./Icon/IconaProfilo.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnProfilo.setIcon(iconProfilo);
-        ImageIcon iconRicerca = new ImageIcon(new ImageIcon("./Icon/search.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
+        ImageIcon iconRicerca = new ImageIcon(new ImageIcon("./Icon/IconaCerca.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnRicerca.setIcon(iconRicerca);
-        ImageIcon iconInserisci = new ImageIcon(new ImageIcon("./Icon/plus.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
+        ImageIcon iconInserisci = new ImageIcon(new ImageIcon("./Icon/IconaMagazzino.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnInserisci.setIcon(iconInserisci);
-        ImageIcon iconCarrello = new ImageIcon(new ImageIcon("./Icon/cart.png").getImage().getScaledInstance(43, 35, Image.SCALE_DEFAULT));
+        ImageIcon iconCarrello = new ImageIcon(new ImageIcon("./Icon/IconaCarrello.png").getImage().getScaledInstance(43, 43, Image.SCALE_DEFAULT));
         btnCarrello.setIcon(iconCarrello);
         //azioni pannello interno
         iconRicerca.getImage().getScaledInstance(21, 21, Image.SCALE_DEFAULT);
@@ -100,6 +101,98 @@ public class Ricerca {
         btnSX.setIcon(iconSx);
         ImageIcon iconDx = new ImageIcon(new ImageIcon("./Icon/arrowRight.png").getImage().getScaledInstance(34, 34, Image.SCALE_DEFAULT));
         btnDX.setIcon(iconDx);
+        btnCarrello.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnCarrello.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnCarrello.setBackground(new Color(60, 63, 65));
+            }
+        });
+        btnInserisci.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnInserisci.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnInserisci.setBackground(new Color(60, 63, 65));
+            }
+        });
+        btnProfilo.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnProfilo.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnProfilo.setBackground(new Color(60, 63, 65));
+            }
+        });
+        btnRicerca.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnRicerca.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnRicerca.setBackground(new Color(60, 63, 65));
+            }
+        });
         btnLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -230,8 +323,7 @@ public class Ricerca {
 
     public int viewBooks(ArrayList<Book> listaLibri, int startPosition, ArrayList<Book> carrello) {
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon1 =
-                    new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             lbImage1.setIcon(icon1);
             lbTitolo1.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore1.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
@@ -243,7 +335,7 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello,listaLibri.get(finalStartPosition));
+                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
                         //carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
                     } else {
@@ -261,8 +353,7 @@ public class Ricerca {
             startPosition++;
         }
         if (startPosition < listaLibri.size()) {
-            ImageIcon icon2 =
-                    new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+            ImageIcon icon2 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             lbImage2.setIcon(icon2);
             lbTitolo2.setText("Titolo: " + listaLibri.get(startPosition).getTitolo());
             lbAutore2.setText(("Autore: " + listaLibri.get(startPosition).getAutore()));
@@ -274,7 +365,7 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello,listaLibri.get(finalStartPosition));
+                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
                         //carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
                     } else {
@@ -311,7 +402,7 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello,listaLibri.get(finalStartPosition));
+                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
                         //carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
                     } else {
@@ -348,7 +439,7 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello,listaLibri.get(finalStartPosition));
+                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
                         //carrello.add(listaLibri.get(finalStartPosition));
                         updateQuantità(listaLibri, finalStartPosition);
                     } else {
