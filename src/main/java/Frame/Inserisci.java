@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Vector;
 
 public class Inserisci {
@@ -187,6 +188,7 @@ public class Inserisci {
             nomiColonne.add(metaData.getColumnName(colonna));
         }
         //Collections.swap(nomiColonne, 0, 4);
+        nomiColonne.removeElementAt(4);
         // dati in tabella
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
         while (rs.next()) {
@@ -195,6 +197,7 @@ public class Inserisci {
                 vector.add(rs.getObject(columnIndex));
             }
             //Collections.swap(vector, 0, 4);
+            vector.removeElementAt(4);
             data.add(vector);
         }
         return new DefaultTableModel(data, nomiColonne);

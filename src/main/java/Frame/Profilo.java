@@ -6,6 +6,7 @@ import Utils.Book;
 import Utils.DBManager;
 import Utils.Manager;
 import Utils.User;
+import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,8 +22,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Profilo extends Component {
     ArrayList<Book> listaLibri;
@@ -217,7 +220,7 @@ public class Profilo extends Component {
             statement.setString(1, utente.getUniversità());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                model = Inserisci.buildTableModel(resultSet);
+                model = buildTableModel(resultSet);
                 bookTable.setModel(model);
                 bookTable.setDefaultEditor(Object.class, null);
             }
@@ -252,5 +255,24 @@ public class Profilo extends Component {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public static @NotNull DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
+        ResultSetMetaData metaData = rs.getMetaData();
+        // nomi delle colonne
+        Vector<String> nomiColonne = new Vector<String>();
+        int numeroColonne = metaData.getColumnCount();
+        for (int colonna = 1; colonna <= numeroColonne; colonna++) {
+            nomiColonne.add(metaData.getColumnName(colonna));
+        }
+        // dati in tabella
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= numeroColonne; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+        return new DefaultTableModel(data, nomiColonne);
     }
 }
