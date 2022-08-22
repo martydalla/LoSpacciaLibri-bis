@@ -215,17 +215,17 @@ public class Inserisci {
             ListSelectionModel selectionModel = table.getSelectionModel();
             if (!selectionModel.isSelectionEmpty()) {
                 isbnTextField.setEnabled(false);
-                isbnTextField.setText((String) model.getValueAt(table.getSelectedRow(), 4));
+                isbnTextField.setText((String) model.getValueAt(table.getSelectedRow(), 0));
                 titoloTextField.setText((String) model.getValueAt(table.getSelectedRow(), 1));
                 titoloTextField.setEnabled(false);
                 autoreTextField.setText((String) model.getValueAt(table.getSelectedRow(), 2));
                 autoreTextField.setEnabled(false);
                 universitàTextField.setText((String) model.getValueAt(table.getSelectedRow(), 3));
                 universitàTextField.setEnabled(false);
-                prezzoTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 5)));
-                descrzioneTextPane.setText((String) model.getValueAt(table.getSelectedRow(), 6));
+                prezzoTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 4)));
+                descrzioneTextPane.setText((String) model.getValueAt(table.getSelectedRow(), 5));
                 descrzioneTextPane.setEnabled(false);
-                quantitàTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 7)));
+                quantitàTextField.setText(Integer.toString((Integer) model.getValueAt(table.getSelectedRow(), 6)));
             }
         });
         svuotaButton.addActionListener(e -> {
