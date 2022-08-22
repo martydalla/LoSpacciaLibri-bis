@@ -8,14 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Signin extends JFrame {
+    String username;
+    String password;
+    MainFrame frame;
     private JTextField tfUsername;
     private JPasswordField pfPassword;
     private JButton btnContinua;
     private JPanel signinPanel;
     private JButton indietroButton;
-    String username;
-    String password;
-    MainFrame frame;
 
     public Signin(MainFrame frame) {
         /*COSTRUTTORE*/

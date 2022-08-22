@@ -22,6 +22,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Ricerca {
+    JScrollPane scrollPanel;
+    ArrayList<Book> listaLibri;
+    ArrayList<Book> carrello;
+    int startPosition;
+    ActionListener btn1Push;
+    ActionListener btn2Push;
+    ActionListener btn3Push;
+    ActionListener btn4Push;
+    ActionListener btnInfo1Push;
+    ActionListener btnInfo2Push;
+    ActionListener btnInfo3Push;
+    ActionListener btnInfo4Push;
+    //LA PRIMA VOLTA CHE SI SCHIACCIA SU ACQUISTA AGGIUNGE TUTTI I LIBRI IN MAGAZZINO
+    User utente;
     private JButton btnProfilo;
     private JButton btnRicerca;
     private JButton btnInserisci;
@@ -36,7 +50,6 @@ public class Ricerca {
     private JPanel panel3;
     private JPanel panel2;
     private JPanel panel4;
-    JScrollPane scrollPanel;
     private JLabel lbTitolo1;
     private JLabel lbAutore1;
     private JLabel lbPrezzo1;
@@ -65,19 +78,7 @@ public class Ricerca {
     private JButton btnInfo4;
     private JPanel inPanel;
     private JLabel lbInfo1;
-    ArrayList<Book> listaLibri;
-    ArrayList<Book> carrello;
-    int startPosition;
-    ActionListener btn1Push;
-    ActionListener btn2Push;
-    ActionListener btn3Push;
-    ActionListener btn4Push;
-    ActionListener btnInfo1Push;
-    ActionListener btnInfo2Push;
-    ActionListener btnInfo3Push;
-    ActionListener btnInfo4Push;
-    //LA PRIMA VOLTA CHE SI SCHIACCIA SU ACQUISTA AGGIUNGE TUTTI I LIBRI IN MAGAZZINO
-    User utente;
+
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
         this.utente = utente;
         btnCarrello.setBackground(new Color(60, 63, 65));
@@ -310,21 +311,6 @@ public class Ricerca {
         }
     }
 
-    public void updateQuantità(ArrayList<Book> listaLibri, int position) {
-        int newQuantity = listaLibri.get(position).getQuantità() - 1;
-        DBManager.setConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = DBManager.getConnection().prepareStatement("update books set quantità = ? where isbn = ?");
-            statement.setInt(1, newQuantity);
-            statement.setString(2, listaLibri.get(position).getIsbn());
-            statement.execute();
-            listaLibri.get(position).setQuantità(newQuantity);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public int viewBooks(ArrayList<Book> listaLibri, int startPosition, ArrayList<Book> carrello) {
         if (startPosition < listaLibri.size()) {
             /*MODIFICATO DA AYOUB*/
@@ -496,5 +482,20 @@ public class Ricerca {
             btnInfo4.setVisible(false);
         }
         return startPosition;
+    }
+
+    public void updateQuantità(ArrayList<Book> listaLibri, int position) {
+        int newQuantity = listaLibri.get(position).getQuantità() - 1;
+        DBManager.setConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = DBManager.getConnection().prepareStatement("update books set quantità = ? where isbn = ?");
+            statement.setInt(1, newQuantity);
+            statement.setString(2, listaLibri.get(position).getIsbn());
+            statement.execute();
+            listaLibri.get(position).setQuantità(newQuantity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

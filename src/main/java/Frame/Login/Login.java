@@ -1,9 +1,8 @@
 package Frame.Login;
 
-import Frame.Profilo;
 import Frame.Ricerca;
-import Frame.Start.MainFrame;
 import Frame.SignIn.Signin;
+import Frame.Start.MainFrame;
 import Utils.Book;
 import Utils.DBManager;
 import Utils.Manager;
@@ -13,11 +12,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Login {
+    User utente;
+    ArrayList<Book> carrello;
     private JTextField tfUsername;
     private JButton btnLogin;
     private JPasswordField pfPassword;
@@ -25,8 +27,6 @@ public class Login {
     private JButton btnPwDimenticata;
     private JButton btnSignin;
     private JLabel lbErrore;
-    User utente;
-    ArrayList<Book> carrello;
 
     public Login(JFrame frame) {
         utente = new User(null, null, null, null, null, null, null, null, null);

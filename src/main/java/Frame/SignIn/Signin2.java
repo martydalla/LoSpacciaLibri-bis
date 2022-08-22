@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.sql.Blob;
 
 public class Signin2 extends JFrame {
+    String nome, cognome, email, username, password;
+    MainFrame frame;
     private JTextField tfNome;
     private JTextField tfCognome;
     private JTextField tfEmail;
@@ -25,25 +27,35 @@ public class Signin2 extends JFrame {
     private InputStream input;
     private BufferedImage image;
     private Blob picData;
-    String nome, cognome, email, username, password;
-    MainFrame frame;
 
     public Signin2(String username, String password, MainFrame frame) {
         this.frame = frame;
         this.username = username;
         this.password = password;
         try {
-            image = ImageIO.read(new File("./Icon/omino.jpeg"));
+            image = ImageIO.read(new File("./Icon/IconaProfilo.png"));
             fotoLabel.setIcon(Manager.resizeImage(image, 100, 100));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         aggiungiFotoButton.addActionListener(e -> loadFoto());
         btnContinua.addActionListener(e -> continua());
-
         frame.setContentPane(signin2Panel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
+    }
+
+    private void loadFoto() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(this);
+        try {
+            input = new FileInputStream(chooser.getSelectedFile());
+            image = ImageIO.read(input);
+            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return;
     }
 
     private void continua() {
@@ -61,18 +73,5 @@ public class Signin2 extends JFrame {
         } else {
             return false;
         }
-    }
-
-    private void loadFoto() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(this);
-        try {
-            input = new FileInputStream(chooser.getSelectedFile());
-            image = ImageIO.read(input);
-            fotoLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return;
     }
 }

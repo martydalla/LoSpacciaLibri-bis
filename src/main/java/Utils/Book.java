@@ -14,8 +14,7 @@ public class Book {
     int quantità;
     String path;
 
-    public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo,
-                String descrizione, int quantità) {
+    public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo, String descrizione, int quantità) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.autore = autore;
@@ -24,6 +23,11 @@ public class Book {
         this.prezzo = prezzo;
         this.descrizione = descrizione;
         this.quantità = quantità;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn);
     }
 
     @Override
@@ -37,8 +41,8 @@ public class Book {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(isbn);
+    public String toString() {
+        return "Book{" + "isbn='" + isbn + '\'' + ", titolo='" + titolo + '\'' + ", autore='" + autore + '\'' + ", università='" + università + '\'' + ", immagine=" + immagine + ", prezzo=" + prezzo + ", descrizione='" + descrizione + '\'' + ", quantità=" + quantità + '}';
     }
 
     public String getIsbn() {
@@ -111,10 +115,5 @@ public class Book {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" + "isbn='" + isbn + '\'' + ", titolo='" + titolo + '\'' + ", autore='" + autore + '\'' + ", università='" + università + '\'' + ", immagine=" + immagine + ", prezzo=" + prezzo + ", descrizione='" + descrizione + '\'' + ", quantità=" + quantità + '}';
     }
 }

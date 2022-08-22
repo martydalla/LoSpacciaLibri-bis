@@ -7,17 +7,19 @@ import Utils.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ChangePw {
+    ArrayList<User> users;
     private JTextField tfUsername;
     private JTextField tfEmail;
     private JPasswordField pfPassword;
     private JButton btnChangePw;
     private JPanel changePwPanel;
     private JLabel lbErrore;
-    ArrayList<User> users;
 
     public ChangePw(MainFrame frame, User utente) {
         frame.setSize(400, 300);

@@ -1,7 +1,6 @@
 package Utils;
 
 import java.awt.image.BufferedImage;
-import java.sql.Blob;
 import java.util.Objects;
 
 public class User {
@@ -15,8 +14,7 @@ public class User {
     Boolean Admin;
     String Path;
 
-    public User(String username, String pw, String nome, String cognome, String email, BufferedImage immagine, String università
-            , Boolean admin, String path) {
+    public User(String username, String pw, String nome, String cognome, String email, BufferedImage immagine, String università, Boolean admin, String path) {
         Username = username;
         Pw = pw;
         Nome = nome;

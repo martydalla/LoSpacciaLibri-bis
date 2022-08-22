@@ -17,15 +17,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.QuadCurve2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Carrello {
+    JFrame frame;
+    ArrayList<Book> carrello;
+    User utente;
+    DefaultTableModel model;
+    TableCellRenderer tableRenderer;
+    JButton button = new JButton();
     private JButton btnProfilo;
     private JButton btnRicerca;
     private JButton btnInserisci;
@@ -38,12 +41,6 @@ public class Carrello {
     private JTable carrelloTable;
     private JTextField totTextField;
     private JButton acquistaButton;
-    JFrame frame;
-    ArrayList<Book> carrello;
-    User utente;
-    DefaultTableModel model;
-    TableCellRenderer tableRenderer;
-    JButton button = new JButton();
 
     public Carrello(MainFrame frame, User utente, ArrayList<Book> carrello) {
         btnCarrello.setBackground(new Color(60, 63, 65));
@@ -247,6 +244,57 @@ public class Carrello {
         });
     }
 
+    private void paintCarrello() {
+        buildTable();
+        double tot = 0;
+        for (int i = 0; i < carrello.size(); i++) {
+            try {
+                Object rowData[] = new Object[5];
+                rowData[0] = Manager.resizeImage(carrello.get(i).getImmagine(), 70, 70);
+                rowData[1] = carrello.get(i).getTitolo();
+                rowData[2] = carrello.get(i).getPrezzo();
+                rowData[3] = carrello.get(i).getQuantità();
+                button.setSize(50, 20);
+                model.addRow(rowData);
+                tot += carrello.get(i).getPrezzo() * carrello.get(i).getQuantità();
+            } catch (IOException e) {
+                //
+            }
+        }
+        totTextField.setText("Totale: " + tot);
+    }
+
+    private void buildTable() {
+        model = new DefaultTableModel(new Object[][]{}, new String[]{"Immagine", "Titolo", "Prezzo", "Quantità", "Elimina"}) {
+            boolean[] edit = {false, false, false, true, true};
+            Class[] types = new Class[]{Icon.class, String.class, Integer.class, Integer.class, JButton.class};
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return edit[columnIndex];
+            }
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+        carrelloTable.setModel(model);
+        carrelloTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        //carrelloTable.setFont(new Font("Roboto", 0, 15));
+        carrelloTable.getTableHeader().setReorderingAllowed(false);
+        carrelloTable.setRowHeight(70);
+        carrelloTable.setModel(model);
+        carrelloTable.getColumn("Elimina").setCellRenderer(new ButtunRender());
+        carrelloTable.getColumn("Elimina").setCellEditor(new ButtonEditor(new JCheckBox()));
+    }
+
+    public static void aggiungiAlCarrello(ArrayList<Book> list, Book b) {
+        if (list.contains(b)) {
+            JOptionPane.showMessageDialog(null, "Libro già nel carrello", null, JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        list.add(b);
+    }
+
     public void debug() {
         DBManager.setConnection();
         try {
@@ -282,37 +330,6 @@ public class Carrello {
         }
     }
 
-    public static void aggiungiAlCarrello(ArrayList<Book> list, Book b) {
-        if (list.contains(b)) {
-            JOptionPane.showMessageDialog(null, "Libro già nel carrello", null, JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        list.add(b);
-    }
-
-    private void buildTable() {
-        model = new DefaultTableModel(new Object[][]{}, new String[]{"Immagine", "Titolo", "Prezzo", "Quantità", "Elimina"}) {
-            boolean[] edit = {false, false, false, true, true};
-            Class[] types = new Class[]{Icon.class, String.class, Integer.class, Integer.class, JButton.class};
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return edit[columnIndex];
-            }
-
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
-            }
-        };
-        carrelloTable.setModel(model);
-        carrelloTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //carrelloTable.setFont(new Font("Roboto", 0, 15));
-        carrelloTable.getTableHeader().setReorderingAllowed(false);
-        carrelloTable.setRowHeight(70);
-        carrelloTable.setModel(model);
-        carrelloTable.getColumn("Elimina").setCellRenderer(new ButtunRender());
-        carrelloTable.getColumn("Elimina").setCellEditor(new ButtonEditor(new JCheckBox()));
-    }
-
     class ButtunRender extends JButton implements TableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -330,25 +347,5 @@ public class Carrello {
             button.setText("Elimina");
             return button;
         }
-    }
-
-    private void paintCarrello() {
-        buildTable();
-        double tot = 0;
-        for (int i = 0; i < carrello.size(); i++) {
-            try {
-                Object rowData[] = new Object[5];
-                rowData[0] = Manager.resizeImage(carrello.get(i).getImmagine(), 70, 70);
-                rowData[1] = carrello.get(i).getTitolo();
-                rowData[2] = carrello.get(i).getPrezzo();
-                rowData[3] = carrello.get(i).getQuantità();
-                button.setSize(50, 20);
-                model.addRow(rowData);
-                tot += carrello.get(i).getPrezzo() * carrello.get(i).getQuantità();
-            } catch (IOException e) {
-                //
-            }
-        }
-        totTextField.setText("Totale: " + tot);
     }
 }

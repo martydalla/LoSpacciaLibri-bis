@@ -6,33 +6,35 @@ import Utils.Book;
 import Utils.DBManager;
 import Utils.Manager;
 import Utils.User;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.sqlite.core.DB;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.lang.reflect.Array;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Vector;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class Inserisci {
+    MainFrame frame;
+    DefaultTableModel model;
+    ListSelectionModel selectionModel;
+    BufferedImage currentBufferedImage;
+    String immaginePath;
+    boolean mouse;
+    User utente;
+    ArrayList<Book> carrello;
+    ImageIcon defaultIcon = new ImageIcon(new ImageIcon("Icon/logo.png").getImage().getScaledInstance(100, 130, Image.SCALE_DEFAULT));
     private JButton btnProfilo;
     private JButton btnRicerca;
     private JButton btnInserisci;
@@ -57,15 +59,6 @@ public class Inserisci {
     private JTextPane descrzioneTextPane;
     private JButton salvaModificheButton;
     private JLabel immagineLabel;
-    MainFrame frame;
-    DefaultTableModel model;
-    ListSelectionModel selectionModel;
-    BufferedImage currentBufferedImage;
-    String immaginePath;
-    boolean mouse;
-    User utente;
-    ArrayList<Book> carrello;
-    ImageIcon defaultIcon = new ImageIcon(new ImageIcon("Icon/logo.png").getImage().getScaledInstance(100, 130, Image.SCALE_DEFAULT));
 
     public Inserisci(MainFrame frame, User utente, ArrayList<Book> carrello) {
         btnCarrello.setBackground(new Color(60, 63, 65));
@@ -183,6 +176,28 @@ public class Inserisci {
                 btnRicerca.setBackground(new Color(60, 63, 65));
             }
         });
+    }
+
+    public static @NotNull DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
+        ResultSetMetaData metaData = rs.getMetaData();
+        // nomi delle colonne
+        Vector<String> nomiColonne = new Vector<String>();
+        int numeroColonne = metaData.getColumnCount();
+        for (int colonna = 1; colonna <= numeroColonne; colonna++) {
+            nomiColonne.add(metaData.getColumnName(colonna));
+        }
+        //Collections.swap(nomiColonne, 0, 4);
+        // dati in tabella
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= numeroColonne; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            //Collections.swap(vector, 0, 4);
+            data.add(vector);
+        }
+        return new DefaultTableModel(data, nomiColonne);
     }
 
     private void buttonListeners() {
@@ -435,27 +450,5 @@ public class Inserisci {
                 Carrello cart = new Carrello(frame, utente, carrello);
             }
         });
-    }
-
-    public static @NotNull DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
-        ResultSetMetaData metaData = rs.getMetaData();
-        // nomi delle colonne
-        Vector<String> nomiColonne = new Vector<String>();
-        int numeroColonne = metaData.getColumnCount();
-        for (int colonna = 1; colonna <= numeroColonne; colonna++) {
-            nomiColonne.add(metaData.getColumnName(colonna));
-        }
-        //Collections.swap(nomiColonne, 0, 4);
-        // dati in tabella
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= numeroColonne; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
-            }
-            //Collections.swap(vector, 0, 4);
-            data.add(vector);
-        }
-        return new DefaultTableModel(data, nomiColonne);
     }
 }

@@ -16,17 +16,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Profilo extends Component {
+    ArrayList<Book> listaLibri;
+    DefaultTableModel model;
+    BufferedImage image;
+    User utente;
     private JButton btnProfilo;
     private JButton btnRicerca;
     private JButton btnInserisci;
@@ -44,10 +46,7 @@ public class Profilo extends Component {
     private JTable bookTable;
     private JLabel lbConsigli;
     private JPanel tablePanel;
-    ArrayList<Book> listaLibri;
-    DefaultTableModel model;
-    BufferedImage image;
-    User utente;
+
     public Profilo(MainFrame frame, User utente, ArrayList<Book> carrello) {
         btnCarrello.setBackground(new Color(60, 63, 65));
         btnInserisci.setBackground(new Color(60, 63, 65));
@@ -169,7 +168,7 @@ public class Profilo extends Component {
         lbEmail.setText(utente.getEmail());
         lbUniversità.setText(utente.getUniversità());
         try {
-            lbImmagine.setIcon(Manager.resizeImage(utente.getImmagine(),100,100));
+            lbImmagine.setIcon(Manager.resizeImage(utente.getImmagine(), 100, 100));
         } catch (IOException e) {
             System.out.println("okok");
         }
@@ -210,6 +209,22 @@ public class Profilo extends Component {
         });
     }
 
+    public void setTable(User utente) {
+        DBManager.setConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = DBManager.getConnection().prepareStatement("select titolo, autore, prezzo from books " + "where università" + " = ?");
+            statement.setString(1, utente.getUniversità());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                model = Inserisci.buildTableModel(resultSet);
+                bookTable.setModel(model);
+                bookTable.setDefaultEditor(Object.class, null);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void selectPhoto(User utente) {
         JFileChooser chooser = new JFileChooser();
@@ -228,8 +243,7 @@ public class Profilo extends Component {
         DBManager.setConnection();
         PreparedStatement statement = null;
         try {
-            statement = DBManager.getConnection().prepareStatement("update users set immagine = ? where username" +
-                    " = ?");
+            statement = DBManager.getConnection().prepareStatement("update users set immagine = ? where username" + " = ?");
             statement.setBlob(1, Manager.bufferedImageToInputStream(utente.getImmagine()));
             statement.setString(2, utente.getUsername());
             statement.execute();
@@ -237,23 +251,6 @@ public class Profilo extends Component {
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public void setTable(User utente) {
-        DBManager.setConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = DBManager.getConnection().prepareStatement("select titolo, autore, prezzo from books " + "where università" + " = ?");
-            statement.setString(1, utente.getUniversità());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                model = Inserisci.buildTableModel(resultSet);
-                bookTable.setModel(model);
-                bookTable.setDefaultEditor(Object.class, null);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

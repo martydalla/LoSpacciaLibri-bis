@@ -10,25 +10,21 @@ import Utils.User;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.Buffer;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Signin3 {
-    private JTextField tfUniversità;
-    private JButton btnSignin;
-    private JPanel signin3Panel;
     String nome, cognome, email, username, password, università;
     BufferedImage image;
     JFrame frame;
     User utente;
     ArrayList<Book> carrello;
+    private JTextField tfUniversità;
+    private JButton btnSignin;
+    private JPanel signin3Panel;
 
-    public Signin3(String nome, String cognome, String email, String username, String password, BufferedImage image,
-                   MainFrame frame) {
+    public Signin3(String nome, String cognome, String email, String username, String password, BufferedImage image, MainFrame frame) {
         this.image = image;
         this.cognome = cognome;
         this.email = email;
@@ -37,7 +33,7 @@ public class Signin3 {
         this.username = username;
         this.frame = frame;
         carrello = new ArrayList<>();
-        utente = new User(username, password, nome, cognome, email,image, università, null, null);
+        utente = new User(username, password, nome, cognome, email, image, università, null, null);
         frame.setContentPane(signin3Panel);
         frame.revalidate();
         frame.setLocationRelativeTo(null);
@@ -54,15 +50,14 @@ public class Signin3 {
             utente.setUniversità(università);
             try {
                 DBManager.setConnection();
-                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into users values(?,?,?,?," +
-                        "?,?,?,?)");
+                PreparedStatement st = DBManager.getConnection().prepareStatement("insert into users values(?,?,?,?," + "?,?,?,?)");
                 st.setString(1, username);
                 st.setString(2, password);
                 st.setString(3, nome);
                 st.setString(4, cognome);
                 st.setString(5, email);
                 try {
-                    st.setBlob(6,Manager.bufferedImageToInputStream(image));
+                    st.setBlob(6, Manager.bufferedImageToInputStream(image));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
