@@ -35,7 +35,6 @@ public class Signin2 extends JFrame {
         try {
             image = ImageIO.read(new File("./Icon/omino.jpeg"));
             fotoLabel.setIcon(Manager.resizeImage(image, 100, 100));
-            input = Manager.bufferedImageToInputStream(image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +48,7 @@ public class Signin2 extends JFrame {
 
     private void continua() {
         if (check()) {
-            new Signin3(nome, cognome, email, username, password, input, frame);
+            new Signin3(nome, cognome, email, username, password, image, frame);
         }
     }
 

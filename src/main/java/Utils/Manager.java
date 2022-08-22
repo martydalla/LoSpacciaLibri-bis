@@ -16,11 +16,6 @@ public class Manager {
         /*La funzione converte da Buffered image a ImageIcon scalando*/
         ImageIcon inputImmagine = new ImageIcon(originalImage);
         ImageIcon outputImmagine = new ImageIcon(inputImmagine.getImage().getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT));
-        /*
-        Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-        BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-        */
         return outputImmagine;
     }
 

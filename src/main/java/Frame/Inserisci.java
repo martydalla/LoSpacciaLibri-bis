@@ -445,7 +445,7 @@ public class Inserisci {
         for (int colonna = 1; colonna <= numeroColonne; colonna++) {
             nomiColonne.add(metaData.getColumnName(colonna));
         }
-        Collections.swap(nomiColonne, 0, 4);
+        //Collections.swap(nomiColonne, 0, 4);
         // dati in tabella
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
         while (rs.next()) {
@@ -453,7 +453,7 @@ public class Inserisci {
             for (int columnIndex = 1; columnIndex <= numeroColonne; columnIndex++) {
                 vector.add(rs.getObject(columnIndex));
             }
-            Collections.swap(vector, 0, 4);
+            //Collections.swap(vector, 0, 4);
             data.add(vector);
         }
         return new DefaultTableModel(data, nomiColonne);

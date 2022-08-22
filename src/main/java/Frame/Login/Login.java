@@ -31,18 +31,15 @@ public class Login {
     public Login(JFrame frame) {
         utente = new User(null, null, null, null, null, null, null, null, null);
         carrello = new ArrayList<>();
-
         frame.setContentPane(loginPanel);
         frame.revalidate();
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
-
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String username = tfUsername.getText();
                 String password = String.copyValueOf(pfPassword.getPassword());
-
                 if (checkUser(username, password)) {
                     utente.setUsername(tfUsername.getText());
                     Ricerca ricerca = new Ricerca((MainFrame) frame, utente, carrello);
@@ -72,6 +69,16 @@ public class Login {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
+                utente.setNome(resultSet.getString("nome"));
+                utente.setPw(resultSet.getString("pw"));
+                utente.setCognome(resultSet.getString("cognome"));
+                utente.setEmail(resultSet.getString("email"));
+                try {
+                    utente.setImmagine(Manager.inputStreamToBufferedImage(Manager.blobToInputStream(resultSet.getBlob("immagine"))));
+                } catch (IOException e) {
+                    System.out.println("Impossibile leggere immagine in Login");
+                }
+                utente.setUniversità(resultSet.getString("università"));
                 if (password.equals(String.format("%s", resultSet.getString("pw")))) {
                     return true;
                 }

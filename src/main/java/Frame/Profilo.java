@@ -4,8 +4,10 @@ import Frame.Login.Login;
 import Frame.Start.MainFrame;
 import Utils.Book;
 import Utils.DBManager;
+import Utils.Manager;
 import Utils.User;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -15,6 +17,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,17 +44,17 @@ public class Profilo extends Component {
     private JTable bookTable;
     private JLabel lbConsigli;
     private JPanel tablePanel;
-    private JButton btnCerca;
     ArrayList<Book> listaLibri;
     DefaultTableModel model;
     BufferedImage image;
-
+    User utente;
     public Profilo(MainFrame frame, User utente, ArrayList<Book> carrello) {
         btnCarrello.setBackground(new Color(60, 63, 65));
         btnInserisci.setBackground(new Color(60, 63, 65));
         btnProfilo.setBackground(new Color(60, 63, 65));
         btnRicerca.setBackground(new Color(60, 63, 65));
         listaLibri = new ArrayList<>();
+        this.utente = utente;
         frame.setSize(1000, 600);
         frame.setResizable(false);
         frame.setContentPane(homePanel);
@@ -156,20 +162,17 @@ public class Profilo extends Component {
             }
         });
         //azioni pannello profilo
-        searchUser(utente);
+        /**MODIFICATO DA AYOUB**/
         lbUsername.setText(utente.getUsername());
         lbNome.setText(utente.getNome());
         lbCognome.setText(utente.getCognome());
         lbEmail.setText(utente.getEmail());
         lbUniversità.setText(utente.getUniversità());
-        /*
         try {
-           ImageIcon immagineProfilo = Manager.resizeImage(image, 150, 180);
-            lbImmagine.setIcon(immagineProfilo);
+            lbImmagine.setIcon(Manager.resizeImage(utente.getImmagine(),100,100));
         } catch (IOException e) {
-            System.out.println("Impossibile");
+            System.out.println("okok");
         }
-         */
         lbConsigli.setText("Alcuni consigli visto che frequenti " + utente.getUniversità());
         setTable(utente);
         //azioni bottoni in basso
@@ -207,44 +210,33 @@ public class Profilo extends Component {
         });
     }
 
-    public void searchUser(User utente) {
-        DBManager.setConnection();
-        try {
-            PreparedStatement statement = DBManager.getConnection().prepareStatement("select * from users where " + "username " + "= ?");
-            statement.setString(1, utente.getUsername());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                utente.setNome(String.format("%s", resultSet.getString("nome")));
-                utente.setCognome(String.format("%s", resultSet.getString("cognome")));
-                utente.setEmail(String.format("%s", resultSet.getString("email")));
-                utente.setUniversità(String.format("%s", resultSet.getString("università")));
-                /*?????*/
-                utente.setPath(String.format("%s", resultSet.getString("path_immagine")));
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void selectPhoto(User utente) {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(this);
-        File image = chooser.getSelectedFile();
-        String newPath = image.getAbsolutePath();
-        utente.setPath(newPath);
+        try {
+            InputStream input = new FileInputStream(chooser.getSelectedFile());
+            image = ImageIO.read(input);
+            lbImmagine.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+            utente.setImmagine(image);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void changeImage(User utente) {
         DBManager.setConnection();
         PreparedStatement statement = null;
         try {
-            statement = DBManager.getConnection().prepareStatement("update users set path_immagine = ? where username" + " = ?");
-            statement.setString(1, utente.getPath());
+            statement = DBManager.getConnection().prepareStatement("update users set immagine = ? where username" +
+                    " = ?");
+            statement.setBlob(1, Manager.bufferedImageToInputStream(utente.getImmagine()));
             statement.setString(2, utente.getUsername());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -77,8 +77,9 @@ public class Ricerca {
     ActionListener btnInfo3Push;
     ActionListener btnInfo4Push;
     //LA PRIMA VOLTA CHE SI SCHIACCIA SU ACQUISTA AGGIUNGE TUTTI I LIBRI IN MAGAZZINO
-
+    User utente;
     public Ricerca(MainFrame frame, User utente, ArrayList<Book> carrello) {
+        this.utente = utente;
         btnCarrello.setBackground(new Color(60, 63, 65));
         btnInserisci.setBackground(new Color(60, 63, 65));
         btnProfilo.setBackground(new Color(60, 63, 65));
@@ -330,7 +331,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
                 lbImage1.setIcon(icon1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -367,7 +368,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
                 lbImage2.setIcon(icon2);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -411,7 +412,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
                 lbImage3.setIcon(icon3);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -455,7 +456,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 70, 70);
+                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
                 lbImage4.setIcon(icon4);
             } catch (IOException e) {
                 throw new RuntimeException(e);
