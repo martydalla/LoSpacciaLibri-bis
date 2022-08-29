@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class Ricerca {
     JScrollPane scrollPanel;
-    ArrayList<Book> listaLibri;
+    public static ArrayList<Book> listaLibri;
     ArrayList<Book> carrello;
     int startPosition;
     ActionListener btn1Push;
@@ -317,7 +317,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
+                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
                 lbImage1.setIcon(icon1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -332,9 +332,14 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
-                        //carrello.add(listaLibri.get(finalStartPosition));
-                        updateQuantità(listaLibri, finalStartPosition);
+                        Book thisLibro = new Book(listaLibri.get(finalStartPosition).getIsbn(),
+                                listaLibri.get(finalStartPosition).getTitolo(),
+                                listaLibri.get(finalStartPosition).getAutore(),
+                                listaLibri.get(finalStartPosition).getUniversità(),
+                                listaLibri.get(finalStartPosition).getImmagine(),
+                                listaLibri.get(finalStartPosition).getPrezzo(),
+                                listaLibri.get(finalStartPosition).getDescrizione(), 1);
+                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -354,7 +359,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
+                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
                 lbImage2.setIcon(icon2);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -368,10 +373,17 @@ public class Ricerca {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
+                        listaLibri.get(finalStartPosition).setQuantità(1);
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
-                        //carrello.add(listaLibri.get(finalStartPosition));
-                        updateQuantità(listaLibri, finalStartPosition);
+                        Book thisLibro = new Book(listaLibri.get(finalStartPosition).getIsbn(),
+                                listaLibri.get(finalStartPosition).getTitolo(),
+                                listaLibri.get(finalStartPosition).getAutore(),
+                                listaLibri.get(finalStartPosition).getUniversità(),
+                                listaLibri.get(finalStartPosition).getImmagine(),
+                                listaLibri.get(finalStartPosition).getPrezzo(),
+                                listaLibri.get(finalStartPosition).getDescrizione(), 1);
+                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -398,7 +410,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
+                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
                 lbImage3.setIcon(icon3);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -413,9 +425,15 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
-                        //carrello.add(listaLibri.get(finalStartPosition));
-                        updateQuantità(listaLibri, finalStartPosition);
+                        Book thisLibro = new Book(listaLibri.get(finalStartPosition).getIsbn(),
+                                listaLibri.get(finalStartPosition).getTitolo(),
+                                listaLibri.get(finalStartPosition).getAutore(),
+                                listaLibri.get(finalStartPosition).getUniversità(),
+                                listaLibri.get(finalStartPosition).getImmagine(),
+                                listaLibri.get(finalStartPosition).getPrezzo(),
+                                listaLibri.get(finalStartPosition).getDescrizione(), 1);
+                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -442,7 +460,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 100);
+                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
                 lbImage4.setIcon(icon4);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -457,9 +475,15 @@ public class Ricerca {
                 public void actionPerformed(ActionEvent actionEvent) {
                     if (listaLibri.get(finalStartPosition).getQuantità() >= 1) {
                         //Modificato da ayoub
-                        Carrello.aggiungiAlCarrello(carrello, listaLibri.get(finalStartPosition));
-                        //carrello.add(listaLibri.get(finalStartPosition));
-                        updateQuantità(listaLibri, finalStartPosition);
+                        Book thisLibro = new Book(listaLibri.get(finalStartPosition).getIsbn(),
+                                listaLibri.get(finalStartPosition).getTitolo(),
+                                listaLibri.get(finalStartPosition).getAutore(),
+                                listaLibri.get(finalStartPosition).getUniversità(),
+                                listaLibri.get(finalStartPosition).getImmagine(),
+                                listaLibri.get(finalStartPosition).getPrezzo(),
+                                listaLibri.get(finalStartPosition).getDescrizione(), 1);
+                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -484,18 +508,5 @@ public class Ricerca {
         return startPosition;
     }
 
-    public void updateQuantità(ArrayList<Book> listaLibri, int position) {
-        int newQuantity = listaLibri.get(position).getQuantità() - 1;
-        DBManager.setConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = DBManager.getConnection().prepareStatement("update books set quantità = ? where isbn = ?");
-            statement.setInt(1, newQuantity);
-            statement.setString(2, listaLibri.get(position).getIsbn());
-            statement.execute();
-            listaLibri.get(position).setQuantità(newQuantity);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

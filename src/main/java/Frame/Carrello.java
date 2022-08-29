@@ -41,6 +41,7 @@ public class Carrello {
     private JTable carrelloTable;
     private JTextField totTextField;
     private JButton acquistaButton;
+    ArrayList<Book> listalibri;
 
     public Carrello(MainFrame frame, User utente, ArrayList<Book> carrello) {
         btnCarrello.setBackground(new Color(60, 63, 65));
@@ -242,6 +243,15 @@ public class Carrello {
                 btnRicerca.setBackground(new Color(60, 63, 65));
             }
         });
+        acquistaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JOptionPane.showMessageDialog(null, "Grazie per aver acquistato presso LO SPACCIA LIBRI", null, JOptionPane.INFORMATION_MESSAGE);
+                updateQuantità(carrello);
+                carrello.clear();
+                Carrello newCart = new Carrello(frame, utente, carrello);
+            }
+        });
     }
 
     private void paintCarrello() {
@@ -348,4 +358,24 @@ public class Carrello {
             return button;
         }
     }
+
+    public void updateQuantità(ArrayList<Book> carrello) {
+        DBManager.setConnection();
+        PreparedStatement statement = null;
+        for(int i = 0; i < carrello.size(); i++){
+            try {
+                statement = DBManager.getConnection().prepareStatement("update books set quantità = quantità - ? where " +
+                        "isbn = ?");
+                statement.setInt(1, (Integer)carrelloTable.getValueAt(i, 3));
+                statement.setString(2, carrello.get(i).getIsbn());
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+
 }

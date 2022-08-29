@@ -207,7 +207,7 @@ public class Inserisci {
         rimuoviButton.addActionListener(e -> {
             ListSelectionModel selectionModel = table.getSelectionModel();
             if (!selectionModel.isSelectionEmpty()) {
-                removeFromDB((String) model.getValueAt(table.getSelectedRow(), 4));
+                removeFromDB((String) model.getValueAt(table.getSelectedRow(), 0));
                 model.removeRow(table.getSelectedRow());
             }
         });

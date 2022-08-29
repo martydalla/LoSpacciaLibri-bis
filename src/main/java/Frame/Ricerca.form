@@ -55,7 +55,7 @@
                 <children>
                   <component id="c6873" class="javax.swing.JLabel" binding="lbImage1">
                     <constraints>
-                      <grid row="2" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value=""/>
@@ -123,7 +123,7 @@
                 <children>
                   <component id="9d446" class="javax.swing.JLabel" binding="lbImage2">
                     <constraints>
-                      <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value=""/>
@@ -188,7 +188,7 @@
                 <children>
                   <component id="98c27" class="javax.swing.JLabel" binding="lbImage3">
                     <constraints>
-                      <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value=""/>
@@ -253,7 +253,7 @@
                 <children>
                   <component id="9711e" class="javax.swing.JLabel" binding="lbImage4">
                     <constraints>
-                      <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value=""/>
