@@ -12,8 +12,19 @@ public class Book {
     int prezzo;
     String descrizione;
     int quantità;
-    String path;
 
+    public Book (Book book)
+    {
+        this.quantità = book.getQuantità();
+        this.isbn = book.getIsbn();
+        this.titolo = book.getTitolo();
+        this.autore = book.getAutore();
+        this.università = book.getUniversità();
+        this.immagine = book.getImmagine();
+        this.prezzo = book.getPrezzo();
+        this.descrizione = book.getDescrizione();
+        this.quantità = book.getQuantità();
+    }
     public Book(String isbn, String titolo, String autore, String università, BufferedImage immagine, int prezzo, String descrizione, int quantità) {
         this.isbn = isbn;
         this.titolo = titolo;
@@ -109,11 +120,4 @@ public class Book {
         this.quantità = quantità;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

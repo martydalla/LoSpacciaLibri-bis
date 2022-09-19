@@ -317,7 +317,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
+                ImageIcon icon1 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 110);
                 lbImage1.setIcon(icon1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -339,7 +339,7 @@ public class Ricerca {
                                 listaLibri.get(finalStartPosition).getImmagine(),
                                 listaLibri.get(finalStartPosition).getPrezzo(),
                                 listaLibri.get(finalStartPosition).getDescrizione(), 1);
-                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+                        new InfoBook(listaLibri, finalStartPosition,true,carrello);
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -349,7 +349,7 @@ public class Ricerca {
             btnInfo1.addActionListener(btnInfo1Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition,false,carrello);
                 }
             });
             startPosition++;
@@ -359,7 +359,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
+                ImageIcon icon2 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 110);
                 lbImage2.setIcon(icon2);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -382,7 +382,7 @@ public class Ricerca {
                                 listaLibri.get(finalStartPosition).getImmagine(),
                                 listaLibri.get(finalStartPosition).getPrezzo(),
                                 listaLibri.get(finalStartPosition).getDescrizione(), 1);
-                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+                        new InfoBook(listaLibri, finalStartPosition,true,carrello);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
@@ -393,7 +393,7 @@ public class Ricerca {
             btnInfo2.addActionListener(btnInfo2Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition,false,carrello);
                 }
             });
             startPosition++;
@@ -410,7 +410,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
+                ImageIcon icon3 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 110);
                 lbImage3.setIcon(icon3);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -432,7 +432,7 @@ public class Ricerca {
                                 listaLibri.get(finalStartPosition).getImmagine(),
                                 listaLibri.get(finalStartPosition).getPrezzo(),
                                 listaLibri.get(finalStartPosition).getDescrizione(), 1);
-                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+                        new InfoBook(listaLibri, finalStartPosition,true,carrello);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
@@ -443,7 +443,7 @@ public class Ricerca {
             btnInfo3.addActionListener(btnInfo3Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition,false,carrello);
                 }
             });
             startPosition++;
@@ -460,7 +460,7 @@ public class Ricerca {
             //ImageIcon icon1 = new ImageIcon(new ImageIcon(listaLibri.get(startPosition).getPath()).getImage()
             // .getScaledInstance(70, 70, Image.SCALE_DEFAULT));
             try {
-                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 50, 50);
+                ImageIcon icon4 = Manager.resizeImage(listaLibri.get(startPosition).getImmagine(), 100, 110);
                 lbImage4.setIcon(icon4);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -482,7 +482,7 @@ public class Ricerca {
                                 listaLibri.get(finalStartPosition).getImmagine(),
                                 listaLibri.get(finalStartPosition).getPrezzo(),
                                 listaLibri.get(finalStartPosition).getDescrizione(), 1);
-                        Carrello.aggiungiAlCarrello(carrello, thisLibro);
+                        new InfoBook(listaLibri, finalStartPosition,true,carrello);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Libro non più disponibile!", null, JOptionPane.INFORMATION_MESSAGE);
@@ -493,7 +493,7 @@ public class Ricerca {
             btnInfo4.addActionListener(btnInfo4Push = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    InfoBook info = new InfoBook(listaLibri, finalStartPosition);
+                    InfoBook info = new InfoBook(listaLibri, finalStartPosition,false,carrello);
                 }
             });
             startPosition++;

@@ -106,7 +106,7 @@ public class Carrello {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (carrelloTable.getSelectedRow() >= 0 && carrelloTable.getSelectedColumn() == 0) {
-                    new InfoBook(carrello, carrelloTable.getSelectedRow());
+                    new InfoBook(carrello, carrelloTable.getSelectedRow(),false,carrello);
                 }
             }
 
@@ -249,7 +249,7 @@ public class Carrello {
                 JOptionPane.showMessageDialog(null, "Grazie per aver acquistato presso LO SPACCIA LIBRI", null, JOptionPane.INFORMATION_MESSAGE);
                 updateQuantità(carrello);
                 carrello.clear();
-                Carrello newCart = new Carrello(frame, utente, carrello);
+                paintCarrello();
             }
         });
     }
